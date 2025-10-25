@@ -160,6 +160,20 @@
         .bingo-cell.free {
             border-color: #9c27b0;
             background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            cursor: default;
+        }
+
+        .bingo-cell.free:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .bingo-cell.free.completed {
+            background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+        }
+
+        .bingo-cell.free.completed .free-text {
+            color: white;
         }
 
         .bingo-cell.free .free-text {
@@ -746,9 +760,9 @@
             </div>
             <div class="bingo-cell store-d" data-store="d">
                 <div class="store-name">D店</div>
-                <div class="points">2pt</div>
+                <div class="points">1pt</div>
                 <div class="mission">ミッション4</div>
-                <div class="progress">0/2pt</div>
+                <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-a" data-store="a">
                 <div class="store-name">A店</div>
@@ -760,9 +774,9 @@
             <!-- Row 2 -->
             <div class="bingo-cell store-c" data-store="c">
                 <div class="store-name">C店</div>
-                <div class="points">2pt</div>
+                <div class="points">1pt</div>
                 <div class="mission">ミッション6</div>
-                <div class="progress">0/2pt</div>
+                <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-b" data-store="b">
                 <div class="store-name">B店</div>
@@ -807,9 +821,9 @@
             </div>
             <div class="bingo-cell store-c" data-store="c">
                 <div class="store-name">C店</div>
-                <div class="points">2pt</div>
+                <div class="points">1pt</div>
                 <div class="mission">ミッション13</div>
-                <div class="progress">0/2pt</div>
+                <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-a" data-store="a">
                 <div class="store-name">A店</div>
@@ -821,9 +835,9 @@
             <!-- Row 4 -->
             <div class="bingo-cell store-d" data-store="d">
                 <div class="store-name">D店</div>
-                <div class="points">2pt</div>
+                <div class="points">1pt</div>
                 <div class="mission">ミッション15</div>
-                <div class="progress">0/2pt</div>
+                <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-a" data-store="a">
                 <div class="store-name">A店</div>
@@ -859,9 +873,9 @@
             </div>
             <div class="bingo-cell store-c" data-store="c">
                 <div class="store-name">C店</div>
-                <div class="points">2pt</div>
+                <div class="points">1pt</div>
                 <div class="mission">ミッション21</div>
-                <div class="progress">0/2pt</div>
+                <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-a" data-store="a">
                 <div class="store-name">A店</div>
@@ -871,9 +885,9 @@
             </div>
             <div class="bingo-cell store-d" data-store="d">
                 <div class="store-name">D店</div>
-                <div class="points">2pt</div>
+                <div class="points">1pt</div>
                 <div class="mission">ミッション23</div>
-                <div class="progress">0/2pt</div>
+                <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-b" data-store="b">
                 <div class="store-name">B店</div>
@@ -937,10 +951,11 @@
             <h2>遊び方</h2>
             <ul>
                 <li>🏪 各店舗でQRコードをスキャンしてスタンプをゲット</li>
-                <li>📍 <span class="desc-ab-stores">A・B店</span>: 1ポイント獲得</li>
-                <li>⭐ <span class="desc-cd-stores">C・D店</span>: 通常1ポイント、特別条件達成で2ポイント</li>
-                <li>✅ マスに必要なポイントが貯まると、そのマスが埋まります</li>
+                <li>📍 全てのマスは1ポイント</li>
+                <li>✅ スタンプを集めて各マスを埋めていきます</li>
+                <li>⭐ <span class="desc-cd-stores">C・D店</span>には通常QRとプレミアムQRがあり、条件が異なります</li>
                 <li>🎯 縦・横・斜めのいずれか1列揃えばビンゴ達成！</li>
+                <li>🎁 真ん中のマスはFREE（最初から達成済み）</li>
             </ul>
         </div>
 
@@ -1329,6 +1344,12 @@
                     conditionsContent.innerHTML = '<p>条件が設定されていません。管理者が条件を設定してください。</p>';
                 }
             }
+
+            // FREEマスを自動的に達成済みにする
+            const freeCell = document.querySelector('.bingo-cell.free');
+            if (freeCell) {
+                freeCell.classList.add('completed');
+            }
         }
 
         // モーダル外クリックで閉じる
@@ -1342,6 +1363,11 @@
         // クリックでマスの状態を切り替えるデモ機能
         document.querySelectorAll('.bingo-cell').forEach(cell => {
             cell.addEventListener('click', function() {
+                // FREEマスはクリックしても何もしない
+                if (this.classList.contains('free')) {
+                    return;
+                }
+
                 this.classList.toggle('completed');
                 const progress = this.querySelector('.progress');
                 if (this.classList.contains('completed')) {
