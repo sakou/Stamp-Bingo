@@ -6,18 +6,19 @@ import Card from '@/components/ui/Card'
 import Link from 'next/link'
 import Image from 'next/image'
 
-export default async function EventQRPage({ params }: { params: { id: string } }) {
+export default async function EventQRPage({ params }: { params: Promise<{ id: string }> }) {
   const admin = await getCurrentAdmin()
   if (!admin) {
     redirect('/admin/login')
   }
 
-  const event = await getEvent(params.id)
+  const { id } = await params
+  const event = await getEvent(id)
   if (!event) {
     redirect('/admin/dashboard')
   }
 
-  const qrResult = await regenerateQRCodes(params.id)
+  const qrResult = await regenerateQRCodes(id)
   const qrCodes = qrResult.success ? qrResult.data : null
 
   return (
@@ -60,7 +61,7 @@ export default async function EventQRPage({ params }: { params: { id: string } }
             <div className="flex gap-2">
               {event.status === 'draft' && (
                 <form action={updateEventStatusAction}>
-                  <input type="hidden" name="eventId" value={params.id} />
+                  <input type="hidden" name="eventId" value={id} />
                   <input type="hidden" name="status" value="active" />
                   <Button type="submit" variant="primary">
                     公開する
@@ -69,7 +70,7 @@ export default async function EventQRPage({ params }: { params: { id: string } }
               )}
               {event.status === 'active' && (
                 <form action={updateEventStatusAction}>
-                  <input type="hidden" name="eventId" value={params.id} />
+                  <input type="hidden" name="eventId" value={id} />
                   <input type="hidden" name="status" value="ended" />
                   <Button type="submit" variant="danger">
                     終了する
@@ -118,7 +119,7 @@ export default async function EventQRPage({ params }: { params: { id: string } }
                     {/* Download Button */}
                     <a
                       href={qrCodes[storeCode]}
-                      download={`qr_${params.id}_${storeCode}.png`}
+                      download={`qr_${id}_${storeCode}.png`}
                       className="inline-block"
                     >
                       <Button variant="outline" size="sm" className="w-full">

@@ -5,18 +5,19 @@ import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import Link from 'next/link'
 
-export default async function EventStatisticsPage({ params }: { params: { id: string } }) {
+export default async function EventStatisticsPage({ params }: { params: Promise<{ id: string }> }) {
   const admin = await getCurrentAdmin()
   if (!admin) {
     redirect('/admin/login')
   }
 
-  const event = await getEvent(params.id)
+  const { id } = await params
+  const event = await getEvent(id)
   if (!event) {
     redirect('/admin/dashboard')
   }
 
-  const stats = await getEventStatistics(params.id)
+  const stats = await getEventStatistics(id)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
