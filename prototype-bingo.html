@@ -831,14 +831,11 @@
             </ul>
         </div>
 
-        <div class="info-section">
-            <h2><span class="desc-cd-stores-premium">C・D店</span>のプレミアム条件</h2>
-            <ul>
-                <li>① コラボメニューを注文</li>
-                <li>② 店舗のInstagramをフォロー</li>
-                <li>③ 投稿にタグ付けしてシェア</li>
-            </ul>
-            <p style="margin-top: 10px; font-size: 13px; color: #666;">※すべて満たすと2ポイント獲得！既にフォロー済みの方は②はスキップOK</p>
+        <div class="info-section conditions-section">
+            <h2>参加条件</h2>
+            <div class="conditions-content">
+                <p>条件が設定されていません。管理者が条件を設定してください。</p>
+            </div>
         </div>
 
         <div class="info-section">
@@ -880,7 +877,7 @@
 
         <div class="note">
             <strong>⚠️ 重要な注意事項</strong>
-            同じ店舗でも、ミッション（マス）が異なれば再度訪問が必要です。例えば「C店 ミッション2」と「C店 ミッション4」は別々に達成する必要があります。ポイントは各マスごとに累積されます。
+            同じ店舗でも、ミッション（マス）が異なれば再度訪問が必要です。ポイントは各マスごとに累積されます。ブラウザの変更やCookieの削除でデータが消える可能性がありますのでご注意ください。
         </div>
     </div>
 
@@ -894,15 +891,25 @@
 
             <!-- タブ -->
             <div class="tabs">
-                <button class="tab active" onclick="switchTab('a')">A店</button>
+                <button class="tab active" onclick="switchTab('general')">全体設定</button>
+                <button class="tab" onclick="switchTab('a')">A店</button>
                 <button class="tab" onclick="switchTab('b')">B店</button>
                 <button class="tab" onclick="switchTab('c')">C店</button>
                 <button class="tab" onclick="switchTab('d')">D店</button>
             </div>
 
             <form onsubmit="saveSettings(event)">
+                <!-- 全体設定 -->
+                <div id="tab-general" class="tab-content active">
+                    <div class="form-group">
+                        <label for="conditions">参加条件</label>
+                        <textarea id="conditions" placeholder="スタンプラリーの参加条件を記載してください。例：&#10;① コラボメニューを注文&#10;② 店舗のInstagramをフォロー&#10;③ 投稿にタグ付けしてシェア" rows="6"></textarea>
+                        <small>利用者にも表示されます。改行で条件を分けて記載できます。</small>
+                    </div>
+                </div>
+
                 <!-- A店 -->
-                <div id="tab-a" class="tab-content active">
+                <div id="tab-a" class="tab-content">
                     <div class="form-group">
                         <label for="storeNameA">店舗名 *</label>
                         <input type="text" id="storeNameA" placeholder="例: カフェ○○" required>
@@ -1023,6 +1030,11 @@
             d: { name: 'D店', instagram: '', twitter: '', tiktok: '', description: '素敵なお店です' }
         };
 
+        // デフォルトの全体設定
+        const defaultGeneralSettings = {
+            conditions: '① コラボメニューを注文\n② 店舗のInstagramをフォロー\n③ 投稿にタグ付けしてシェア'
+        };
+
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
             loadStoreInfo();
@@ -1050,6 +1062,10 @@
 
             // 現在の値を読み込み
             const stores = JSON.parse(localStorage.getItem('storeInfo')) || defaultStores;
+            const generalSettings = JSON.parse(localStorage.getItem('generalSettings')) || defaultGeneralSettings;
+
+            // 全体設定の入力欄に値を設定
+            document.getElementById('conditions').value = generalSettings.conditions || '';
 
             // 各店舗の入力欄に値を設定
             ['a', 'b', 'c', 'd'].forEach(store => {
@@ -1074,6 +1090,13 @@
         function saveSettings(event) {
             event.preventDefault();
 
+            // 全体設定を保存
+            const generalSettings = {
+                conditions: document.getElementById('conditions').value
+            };
+            localStorage.setItem('generalSettings', JSON.stringify(generalSettings));
+
+            // 店舗情報を保存
             const stores = {};
             ['a', 'b', 'c', 'd'].forEach(store => {
                 const storeLetter = store.toUpperCase();
@@ -1085,8 +1108,8 @@
                     description: document.getElementById(`description${storeLetter}`).value
                 };
             });
-
             localStorage.setItem('storeInfo', JSON.stringify(stores));
+
             loadStoreInfo();
             closeSettings();
         }
@@ -1161,6 +1184,38 @@
             document.querySelectorAll('.desc-cd-stores, .desc-cd-stores-premium').forEach(el => {
                 el.textContent = cdStores;
             });
+
+            // 参加条件を表示
+            const generalSettings = JSON.parse(localStorage.getItem('generalSettings')) || defaultGeneralSettings;
+            const conditionsContent = document.querySelector('.conditions-content');
+
+            if (conditionsContent) {
+                if (generalSettings.conditions && generalSettings.conditions.trim() !== '') {
+                    // 条件が設定されている場合、改行で分割してリスト表示
+                    const conditionLines = generalSettings.conditions.split('\n').filter(line => line.trim() !== '');
+
+                    if (conditionLines.length > 0) {
+                        const ul = document.createElement('ul');
+                        ul.style.textAlign = 'left';
+                        ul.style.paddingLeft = '20px';
+                        ul.style.margin = '10px 0';
+
+                        conditionLines.forEach(line => {
+                            const li = document.createElement('li');
+                            li.textContent = line.trim();
+                            li.style.marginBottom = '8px';
+                            ul.appendChild(li);
+                        });
+
+                        conditionsContent.innerHTML = '';
+                        conditionsContent.appendChild(ul);
+                    } else {
+                        conditionsContent.innerHTML = '<p>条件が設定されていません。管理者が条件を設定してください。</p>';
+                    }
+                } else {
+                    conditionsContent.innerHTML = '<p>条件が設定されていません。管理者が条件を設定してください。</p>';
+                }
+            }
         }
 
         // モーダル外クリックで閉じる
