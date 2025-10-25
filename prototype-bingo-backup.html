@@ -45,7 +45,6 @@
             font-size: 20px;
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 10;
         }
 
         .settings-btn:hover {
@@ -156,96 +155,6 @@
             margin-top: 5px;
         }
 
-        /* 店舗紹介セクション */
-        .stores-intro {
-            margin-bottom: 30px;
-        }
-
-        .stores-intro h2 {
-            font-size: 20px;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .store-cards {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .store-card {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid #e0e0e0;
-            transition: all 0.3s ease;
-        }
-
-        .store-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .store-card.store-a { border-color: #3498db; }
-        .store-card.store-b { border-color: #2ecc71; }
-        .store-card.store-c { border-color: #e74c3c; }
-        .store-card.store-d { border-color: #f39c12; }
-
-        .store-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .store-card-name {
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .store-card.store-a .store-card-name { color: #3498db; }
-        .store-card.store-b .store-card-name { color: #2ecc71; }
-        .store-card.store-c .store-card-name { color: #e74c3c; }
-        .store-card.store-d .store-card-name { color: #f39c12; }
-
-        .store-card-description {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 10px;
-            line-height: 1.5;
-            min-height: 36px;
-        }
-
-        .store-card-sns {
-            display: flex;
-            gap: 8px;
-        }
-
-        .sns-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .sns-link:hover {
-            transform: scale(1.1);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-
-        .sns-link.instagram { color: #E4405F; }
-        .sns-link.twitter { color: #1DA1F2; }
-        .sns-link.tiktok { color: #000; }
-
         .info-section {
             background: #f8f9fa;
             padding: 20px;
@@ -352,24 +261,20 @@
             height: 100%;
             background-color: rgba(0,0,0,0.5);
             animation: fadeIn 0.3s;
-            overflow-y: auto;
         }
 
         .modal.show {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
         }
 
         .modal-content {
             background: white;
             padding: 30px;
             border-radius: 20px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
+            max-width: 400px;
+            width: 90%;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             animation: slideUp 0.3s;
         }
@@ -399,45 +304,6 @@
             color: #333;
         }
 
-        /* タブ */
-        .tabs {
-            display: flex;
-            border-bottom: 2px solid #e0e0e0;
-            margin-bottom: 20px;
-            gap: 5px;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 12px;
-            background: #f8f9fa;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            color: #666;
-            transition: all 0.3s ease;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .tab.active {
-            background: white;
-            color: #667eea;
-            border-bottom: 3px solid #667eea;
-        }
-
-        .tab:hover:not(.active) {
-            background: #e9ecef;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
         .form-group {
             margin-bottom: 20px;
         }
@@ -450,33 +316,18 @@
             font-weight: bold;
         }
 
-        .form-group input,
-        .form-group textarea {
+        .form-group input {
             width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-size: 14px;
-            font-family: inherit;
             transition: border-color 0.3s;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group input:focus {
             outline: none;
             border-color: #667eea;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .form-group small {
-            display: block;
-            margin-top: 5px;
-            font-size: 12px;
-            color: #999;
         }
 
         .save-btn {
@@ -575,35 +426,6 @@
                 margin-top: 2px;
             }
 
-            .stores-intro h2 {
-                font-size: 16px;
-                margin-bottom: 15px;
-            }
-
-            .store-cards {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .store-card {
-                padding: 12px;
-            }
-
-            .store-card-name {
-                font-size: 14px;
-            }
-
-            .store-card-description {
-                font-size: 11px;
-                min-height: auto;
-            }
-
-            .sns-link {
-                width: 24px;
-                height: 24px;
-                font-size: 12px;
-            }
-
             .info-section {
                 padding: 12px;
                 margin-bottom: 12px;
@@ -674,15 +496,6 @@
                 font-size: 18px;
             }
 
-            .tabs {
-                gap: 3px;
-            }
-
-            .tab {
-                padding: 10px 5px;
-                font-size: 11px;
-            }
-
             .form-group {
                 margin-bottom: 15px;
             }
@@ -691,8 +504,7 @@
                 font-size: 12px;
             }
 
-            .form-group input,
-            .form-group textarea {
+            .form-group input {
                 padding: 10px;
                 font-size: 13px;
             }
@@ -770,56 +582,6 @@
             </div>
         </div>
 
-        <!-- 店舗紹介セクション -->
-        <div class="stores-intro">
-            <h2>参加店舗紹介</h2>
-            <div class="store-cards">
-                <!-- A店 -->
-                <div class="store-card store-a" data-store="a">
-                    <div class="store-card-header">
-                        <div class="store-card-name store-name-a">A店</div>
-                    </div>
-                    <div class="store-card-description desc-a">素敵なお店です</div>
-                    <div class="store-card-sns sns-a">
-                        <!-- SNSリンクは動的に生成 -->
-                    </div>
-                </div>
-
-                <!-- B店 -->
-                <div class="store-card store-b" data-store="b">
-                    <div class="store-card-header">
-                        <div class="store-card-name store-name-b">B店</div>
-                    </div>
-                    <div class="store-card-description desc-b">素敵なお店です</div>
-                    <div class="store-card-sns sns-b">
-                        <!-- SNSリンクは動的に生成 -->
-                    </div>
-                </div>
-
-                <!-- C店 -->
-                <div class="store-card store-c" data-store="c">
-                    <div class="store-card-header">
-                        <div class="store-card-name store-name-c">C店</div>
-                    </div>
-                    <div class="store-card-description desc-c">素敵なお店です</div>
-                    <div class="store-card-sns sns-c">
-                        <!-- SNSリンクは動的に生成 -->
-                    </div>
-                </div>
-
-                <!-- D店 -->
-                <div class="store-card store-d" data-store="d">
-                    <div class="store-card-header">
-                        <div class="store-card-name store-name-d">D店</div>
-                    </div>
-                    <div class="store-card-description desc-d">素敵なお店です</div>
-                    <div class="store-card-sns sns-d">
-                        <!-- SNSリンクは動的に生成 -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="info-section">
             <h2>遊び方</h2>
             <ul>
@@ -888,160 +650,36 @@
     <div id="settingsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>店舗情報設定</h2>
+                <h2>店舗名設定</h2>
                 <button class="close-btn" onclick="closeSettings()">&times;</button>
             </div>
-
-            <!-- タブ -->
-            <div class="tabs">
-                <button class="tab active" onclick="switchTab('a')">A店</button>
-                <button class="tab" onclick="switchTab('b')">B店</button>
-                <button class="tab" onclick="switchTab('c')">C店</button>
-                <button class="tab" onclick="switchTab('d')">D店</button>
-            </div>
-
             <form onsubmit="saveSettings(event)">
-                <!-- A店 -->
-                <div id="tab-a" class="tab-content active">
-                    <div class="form-group">
-                        <label for="storeNameA">店舗名 *</label>
-                        <input type="text" id="storeNameA" placeholder="例: カフェ○○" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="instagramA">Instagram URL</label>
-                        <input type="url" id="instagramA" placeholder="https://instagram.com/...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="twitterA">X (Twitter) URL</label>
-                        <input type="url" id="twitterA" placeholder="https://x.com/...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="tiktokA">TikTok URL</label>
-                        <input type="url" id="tiktokA" placeholder="https://tiktok.com/@...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="descriptionA">お店の紹介</label>
-                        <textarea id="descriptionA" placeholder="お店の魅力を簡潔にご紹介ください（50文字程度推奨）"></textarea>
-                    </div>
+                <div class="form-group">
+                    <label for="storeA">A店の名前</label>
+                    <input type="text" id="storeA" placeholder="例: カフェ○○" required>
                 </div>
-
-                <!-- B店 -->
-                <div id="tab-b" class="tab-content">
-                    <div class="form-group">
-                        <label for="storeNameB">店舗名 *</label>
-                        <input type="text" id="storeNameB" placeholder="例: レストラン△△" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="instagramB">Instagram URL</label>
-                        <input type="url" id="instagramB" placeholder="https://instagram.com/...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="twitterB">X (Twitter) URL</label>
-                        <input type="url" id="twitterB" placeholder="https://x.com/...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="tiktokB">TikTok URL</label>
-                        <input type="url" id="tiktokB" placeholder="https://tiktok.com/@...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="descriptionB">お店の紹介</label>
-                        <textarea id="descriptionB" placeholder="お店の魅力を簡潔にご紹介ください（50文字程度推奨）"></textarea>
-                    </div>
+                <div class="form-group">
+                    <label for="storeB">B店の名前</label>
+                    <input type="text" id="storeB" placeholder="例: レストラン△△" required>
                 </div>
-
-                <!-- C店 -->
-                <div id="tab-c" class="tab-content">
-                    <div class="form-group">
-                        <label for="storeNameC">店舗名 *</label>
-                        <input type="text" id="storeNameC" placeholder="例: バー□□" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="instagramC">Instagram URL</label>
-                        <input type="url" id="instagramC" placeholder="https://instagram.com/...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="twitterC">X (Twitter) URL</label>
-                        <input type="url" id="twitterC" placeholder="https://x.com/...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="tiktokC">TikTok URL</label>
-                        <input type="url" id="tiktokC" placeholder="https://tiktok.com/@...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="descriptionC">お店の紹介</label>
-                        <textarea id="descriptionC" placeholder="お店の魅力を簡潔にご紹介ください（50文字程度推奨）"></textarea>
-                    </div>
+                <div class="form-group">
+                    <label for="storeC">C店の名前</label>
+                    <input type="text" id="storeC" placeholder="例: バー□□" required>
                 </div>
-
-                <!-- D店 -->
-                <div id="tab-d" class="tab-content">
-                    <div class="form-group">
-                        <label for="storeNameD">店舗名 *</label>
-                        <input type="text" id="storeNameD" placeholder="例: 居酒屋◇◇" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="instagramD">Instagram URL</label>
-                        <input type="url" id="instagramD" placeholder="https://instagram.com/...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="twitterD">X (Twitter) URL</label>
-                        <input type="url" id="twitterD" placeholder="https://x.com/...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="tiktokD">TikTok URL</label>
-                        <input type="url" id="tiktokD" placeholder="https://tiktok.com/@...">
-                        <small>空欄の場合、アイコンは表示されません</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="descriptionD">お店の紹介</label>
-                        <textarea id="descriptionD" placeholder="お店の魅力を簡潔にご紹介ください（50文字程度推奨）"></textarea>
-                    </div>
+                <div class="form-group">
+                    <label for="storeD">D店の名前</label>
+                    <input type="text" id="storeD" placeholder="例: 居酒屋◇◇" required>
                 </div>
-
                 <button type="submit" class="save-btn">保存</button>
             </form>
         </div>
     </div>
 
     <script>
-        // デフォルトの店舗情報
-        const defaultStores = {
-            a: { name: 'A店', instagram: '', twitter: '', tiktok: '', description: '素敵なお店です' },
-            b: { name: 'B店', instagram: '', twitter: '', tiktok: '', description: '素敵なお店です' },
-            c: { name: 'C店', instagram: '', twitter: '', tiktok: '', description: '素敵なお店です' },
-            d: { name: 'D店', instagram: '', twitter: '', tiktok: '', description: '素敵なお店です' }
-        };
-
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
-            loadStoreInfo();
+            loadStoreNames();
         });
-
-        // タブ切り替え
-        function switchTab(storeId) {
-            // タブボタンの切り替え
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            // コンテンツの切り替え
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(`tab-${storeId}`).classList.add('active');
-        }
 
         // 設定モーダルを開く
         function openSettings() {
@@ -1049,19 +687,17 @@
             modal.classList.add('show');
 
             // 現在の値を読み込み
-            const stores = JSON.parse(localStorage.getItem('storeInfo')) || defaultStores;
+            const stores = JSON.parse(localStorage.getItem('storeNames')) || {
+                a: 'A店',
+                b: 'B店',
+                c: 'C店',
+                d: 'D店'
+            };
 
-            // 各店舗の入力欄に値を設定
-            ['a', 'b', 'c', 'd'].forEach(store => {
-                const storeData = stores[store];
-                const storeLetter = store.toUpperCase();
-
-                document.getElementById(`storeName${storeLetter}`).value = storeData.name;
-                document.getElementById(`instagram${storeLetter}`).value = storeData.instagram || '';
-                document.getElementById(`twitter${storeLetter}`).value = storeData.twitter || '';
-                document.getElementById(`tiktok${storeLetter}`).value = storeData.tiktok || '';
-                document.getElementById(`description${storeLetter}`).value = storeData.description || '';
-            });
+            document.getElementById('storeA').value = stores.a;
+            document.getElementById('storeB').value = stores.b;
+            document.getElementById('storeC').value = stores.c;
+            document.getElementById('storeD').value = stores.d;
         }
 
         // 設定モーダルを閉じる
@@ -1074,86 +710,45 @@
         function saveSettings(event) {
             event.preventDefault();
 
-            const stores = {};
-            ['a', 'b', 'c', 'd'].forEach(store => {
-                const storeLetter = store.toUpperCase();
-                stores[store] = {
-                    name: document.getElementById(`storeName${storeLetter}`).value,
-                    instagram: document.getElementById(`instagram${storeLetter}`).value,
-                    twitter: document.getElementById(`twitter${storeLetter}`).value,
-                    tiktok: document.getElementById(`tiktok${storeLetter}`).value,
-                    description: document.getElementById(`description${storeLetter}`).value
-                };
-            });
+            const stores = {
+                a: document.getElementById('storeA').value,
+                b: document.getElementById('storeB').value,
+                c: document.getElementById('storeC').value,
+                d: document.getElementById('storeD').value
+            };
 
-            localStorage.setItem('storeInfo', JSON.stringify(stores));
-            loadStoreInfo();
+            localStorage.setItem('storeNames', JSON.stringify(stores));
+            loadStoreNames();
             closeSettings();
         }
 
-        // 店舗情報を読み込んで表示
-        function loadStoreInfo() {
-            const stores = JSON.parse(localStorage.getItem('storeInfo')) || defaultStores;
+        // 店舗名を読み込んで表示
+        function loadStoreNames() {
+            const stores = JSON.parse(localStorage.getItem('storeNames')) || {
+                a: 'A店',
+                b: 'B店',
+                c: 'C店',
+                d: 'D店'
+            };
 
-            ['a', 'b', 'c', 'd'].forEach(store => {
-                const storeData = stores[store];
-
-                // ビンゴカードの店舗名を更新
-                document.querySelectorAll(`.bingo-cell[data-store="${store}"] .store-name`).forEach(el => {
-                    el.textContent = storeData.name;
-                });
-
-                // レジェンドの店舗名を更新
-                const legendEl = document.querySelector(`.legend-name-${store}`);
-                if (legendEl) legendEl.textContent = storeData.name;
-
-                // 店舗カードの情報を更新
-                const cardNameEl = document.querySelector(`.store-name-${store}`);
-                if (cardNameEl) cardNameEl.textContent = storeData.name;
-
-                const descEl = document.querySelector(`.desc-${store}`);
-                if (descEl) descEl.textContent = storeData.description || '素敵なお店です';
-
-                // SNSリンクを生成
-                const snsContainer = document.querySelector(`.sns-${store}`);
-                if (snsContainer) {
-                    snsContainer.innerHTML = '';
-
-                    if (storeData.instagram) {
-                        const igLink = document.createElement('a');
-                        igLink.href = storeData.instagram;
-                        igLink.className = 'sns-link instagram';
-                        igLink.target = '_blank';
-                        igLink.innerHTML = '📷';
-                        igLink.title = 'Instagram';
-                        snsContainer.appendChild(igLink);
-                    }
-
-                    if (storeData.twitter) {
-                        const twLink = document.createElement('a');
-                        twLink.href = storeData.twitter;
-                        twLink.className = 'sns-link twitter';
-                        twLink.target = '_blank';
-                        twLink.innerHTML = '𝕏';
-                        twLink.title = 'X (Twitter)';
-                        snsContainer.appendChild(twLink);
-                    }
-
-                    if (storeData.tiktok) {
-                        const tkLink = document.createElement('a');
-                        tkLink.href = storeData.tiktok;
-                        tkLink.className = 'sns-link tiktok';
-                        tkLink.target = '_blank';
-                        tkLink.innerHTML = '♪';
-                        tkLink.title = 'TikTok';
-                        snsContainer.appendChild(tkLink);
-                    }
+            // ビンゴカードの店舗名を更新
+            document.querySelectorAll('.bingo-cell').forEach(cell => {
+                const storeType = cell.dataset.store;
+                const storeName = cell.querySelector('.store-name');
+                if (storeName && stores[storeType]) {
+                    storeName.textContent = stores[storeType];
                 }
             });
 
+            // レジェンドの店舗名を更新
+            document.querySelector('.legend-name-a').textContent = stores.a;
+            document.querySelector('.legend-name-b').textContent = stores.b;
+            document.querySelector('.legend-name-c').textContent = stores.c;
+            document.querySelector('.legend-name-d').textContent = stores.d;
+
             // 説明文の店舗名を更新
-            const abStores = `${stores.a.name}・${stores.b.name}`;
-            const cdStores = `${stores.c.name}・${stores.d.name}`;
+            const abStores = `${stores.a}・${stores.b}`;
+            const cdStores = `${stores.c}・${stores.d}`;
 
             document.querySelectorAll('.desc-ab-stores').forEach(el => {
                 el.textContent = abStores;
