@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4店舗合同プレミアム・スタンプラリー - ビンゴカード</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .bingo-card {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .bingo-cell {
+            aspect-ratio: 1;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .bingo-cell:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .bingo-cell.store-a {
+            border-color: #3498db;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+
+        .bingo-cell.store-b {
+            border-color: #2ecc71;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+
+        .bingo-cell.store-c {
+            border-color: #e74c3c;
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+        }
+
+        .bingo-cell.store-d {
+            border-color: #f39c12;
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+        }
+
+        .bingo-cell.completed {
+            background: linear-gradient(135deg, #4caf50 0%, #8bc34a 100%);
+            border-color: #4caf50;
+        }
+
+        .bingo-cell.completed .store-name,
+        .bingo-cell.completed .points,
+        .bingo-cell.completed .condition {
+            color: white;
+        }
+
+        .store-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .points {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .store-a .points { color: #3498db; }
+        .store-b .points { color: #2ecc71; }
+        .store-c .points { color: #e74c3c; }
+        .store-d .points { color: #f39c12; }
+
+        .condition {
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+        }
+
+        .progress {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info-section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-section li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .info-section li:last-child {
+            border-bottom: none;
+        }
+
+        .prizes {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .prize {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .prize-level {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .prize-reward {
+            font-size: 14px;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+        }
+
+        .legend-a { background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border: 2px solid #3498db; }
+        .legend-b { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border: 2px solid #2ecc71; }
+        .legend-c { background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); border: 2px solid #e74c3c; }
+        .legend-d { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); border: 2px solid #f39c12; }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #856404;
+        }
+
+        .note strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>4店舗合同 プレミアム・スタンプラリー</h1>
+            <p>ビンゴを達成して豪華景品をゲット！</p>
+        </div>
+
+        <div class="bingo-card">
+            <!-- Row 1 -->
+            <div class="bingo-cell store-a">
+                <div class="store-name">A店</div>
+                <div class="points">1pt</div>
+                <div class="condition">条件1</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-c">
+                <div class="store-name">C店</div>
+                <div class="points">2pt</div>
+                <div class="condition">条件2</div>
+                <div class="progress">0/2pt</div>
+            </div>
+            <div class="bingo-cell store-b">
+                <div class="store-name">B店</div>
+                <div class="points">1pt</div>
+                <div class="condition">条件3</div>
+                <div class="progress">0/1pt</div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="bingo-cell store-c">
+                <div class="store-name">C店</div>
+                <div class="points">2pt</div>
+                <div class="condition">条件4</div>
+                <div class="progress">0/2pt</div>
+            </div>
+            <div class="bingo-cell store-d">
+                <div class="store-name">D店</div>
+                <div class="points">2pt</div>
+                <div class="condition">条件5</div>
+                <div class="progress">0/2pt</div>
+            </div>
+            <div class="bingo-cell store-a">
+                <div class="store-name">A店</div>
+                <div class="points">1pt</div>
+                <div class="condition">条件6</div>
+                <div class="progress">0/1pt</div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="bingo-cell store-b">
+                <div class="store-name">B店</div>
+                <div class="points">1pt</div>
+                <div class="condition">条件7</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-a">
+                <div class="store-name">A店</div>
+                <div class="points">1pt</div>
+                <div class="condition">条件8</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-d">
+                <div class="store-name">D店</div>
+                <div class="points">2pt</div>
+                <div class="condition">条件9</div>
+                <div class="progress">0/2pt</div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>遊び方</h2>
+            <ul>
+                <li>🏪 各店舗でQRコードをスキャンしてスタンプをゲット</li>
+                <li>📍 A・B店: 1ポイント獲得</li>
+                <li>⭐ C・D店: 通常1ポイント、特別条件達成で2ポイント</li>
+                <li>✅ マスに必要なポイントが貯まると、そのマスが埋まります</li>
+                <li>🎯 縦・横・斜めのいずれか1列揃えばビンゴ達成！</li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>C・D店のプレミアム条件</h2>
+            <ul>
+                <li>① コラボメニューを注文</li>
+                <li>② 店舗のInstagramをフォロー</li>
+                <li>③ SNSに投稿 または アンケートに回答</li>
+            </ul>
+            <p style="margin-top: 10px; font-size: 13px; color: #666;">※すべて満たすと2ポイント獲得！</p>
+        </div>
+
+        <div class="info-section">
+            <h2>景品</h2>
+            <div class="prizes">
+                <div class="prize">
+                    <div class="prize-level">レベル1（シングルビンゴ）</div>
+                    <div class="prize-reward">10%割引クーポン</div>
+                </div>
+                <div class="prize">
+                    <div class="prize-level">レベル2（ダブルビンゴ）</div>
+                    <div class="prize-reward">¥1,000食事券</div>
+                </div>
+                <div class="prize">
+                    <div class="prize-level">レベル3（フルコンプリート）</div>
+                    <div class="prize-reward">¥5,000食事券</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color legend-a"></div>
+                <span>A店</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-b"></div>
+                <span>B店</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-c"></div>
+                <span>C店</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-d"></div>
+                <span>D店</span>
+            </div>
+        </div>
+
+        <div class="note">
+            <strong>⚠️ 重要な注意事項</strong>
+            同じ店舗でも、条件（マス）が異なれば再度訪問が必要です。例えば「C店 条件2」と「C店 条件4」は別々に達成する必要があります。ポイントは各マスごとに累積されます。
+        </div>
+    </div>
+
+    <script>
+        // クリックでマスの状態を切り替えるデモ機能
+        document.querySelectorAll('.bingo-cell').forEach(cell => {
+            cell.addEventListener('click', function() {
+                this.classList.toggle('completed');
+                const progress = this.querySelector('.progress');
+                if (this.classList.contains('completed')) {
+                    progress.textContent = '達成！';
+                } else {
+                    progress.textContent = progress.textContent.replace('達成！', '0/' + this.querySelector('.points').textContent.replace('pt', 'pt'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
