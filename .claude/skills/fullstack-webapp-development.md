@@ -2,26 +2,48 @@
 
 このスキルは、Next.js + TypeScript + Prisma を使った高品質なフルスタックWebアプリケーションを効率的に開発するためのガイドです。
 
-## 概要
+---
 
-このスキルは以下をカバーします：
+## 🚀 スキル実行時の自動フロー
+
+**このスキルが呼び出されたら、以下の流れで自律的に進めてください：**
+
+### ステップ1: ヒアリング開始
+```
+さあ！一緒にフルスタックWebアプリケーションを作りましょう！
+
+まず、作りたいアプリについて教えてください：
+
+1. **アプリの概要**: どんなアプリを作りますか？（1-2文で）
+2. **主要機能**: 必須の機能は何ですか？（箇条書きで）
+3. **想定ユーザー**: どのくらいの規模を想定していますか？
+   - 例：Vercel無料枠で十分 / 大規模トラフィック想定
+4. **技術的制約**: 特定の技術や制約はありますか？
+   - 例：ローカル環境にNode/DB入れたくない（Docker必須）
+   - 例：特定のライブラリを使いたい
+5. **その他の要望**: 期待するユーザー体験や特記事項があれば
+```
+
+### ステップ2: 要件整理 & TODO作成
+ヒアリング内容を基に：
+1. 要件を整理・確認
+2. TodoWriteツールで全体のタスクリストを作成
+3. Phase 1から順次進める
+
+### ステップ3: 自律的な実装
+- 確認が必要な場合のみユーザーに質問
+- それ以外は推奨パターンで自律的に進める
+- 各フェーズ完了時にTODOを更新
+
+---
+
+## 📋 このスキルがカバーする内容
+
 - 要件定義から本番デプロイまでの完全な開発フロー
 - TDD（テスト駆動開発）アプローチ
 - Docker完全セットアップ（ローカル環境にNode/DBを入れない）
 - CI/CD統合（GitHub Actions）
 - Next.js 15の最新ベストプラクティス
-
-## 使い方
-
-```
-私と一緒に[アプリの概要]を作成したいです。
-fullstack-webapp-developmentスキルを使って進めてください。
-
-要件：
-- [主要機能の箇条書き]
-- [技術的制約があれば]
-- [期待するユーザー体験]
-```
 
 ---
 
@@ -697,6 +719,53 @@ npx prisma db seed
 ### 9. テストで "multiple elements" エラー
 **症状**: `Found multiple elements with the text: XXX`
 **対処**: `getAllByText` または `container.textContent` を使用
+
+### 10. Next.js 15でcookie設定エラー
+**症状**: `Cookies can only be modified in a Server Action or Route Handler`
+**原因**: Page ComponentのServer Action内で `cookies().set()` を実行している
+**対処**: middlewareでcookieを設定する
+
+```typescript
+// ❌ 間違い - lib/user-utils.ts
+export async function getUserId() {
+  const cookieStore = await cookies()
+  cookieStore.set('user_id', uuidv4(), {...})  // エラー！
+  return userId
+}
+
+// ✅ 正しい - middleware.ts を作成
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { v4 as uuidv4 } from 'uuid'
+
+export function middleware(request: NextRequest) {
+  const response = NextResponse.next()
+  const existingUserId = request.cookies.get('user_id')
+
+  if (!existingUserId) {
+    response.cookies.set('user_id', uuidv4(), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 365,
+    })
+  }
+
+  return response
+}
+
+export const config = {
+  matcher: '/((?!_next/static|_next/image|favicon.ico).*)',
+}
+
+// ✅ lib/user-utils.ts は読み取りのみ
+export async function getUserId() {
+  const cookieStore = await cookies()
+  return cookieStore.get('user_id')?.value || ''
+}
+```
+
+**理由**: Next.js 15ではcookieの設定はmiddleware、Server Action、Route Handlerでのみ可能。Page ComponentのServer関数内では読み取りのみ。
 
 ---
 
