@@ -586,15 +586,15 @@
             <h2>遊び方</h2>
             <ul>
                 <li>🏪 各店舗でQRコードをスキャンしてスタンプをゲット</li>
-                <li>📍 A・B店: 1ポイント獲得</li>
-                <li>⭐ C・D店: 通常1ポイント、特別条件達成で2ポイント</li>
+                <li>📍 <span class="desc-ab-stores">A・B店</span>: 1ポイント獲得</li>
+                <li>⭐ <span class="desc-cd-stores">C・D店</span>: 通常1ポイント、特別条件達成で2ポイント</li>
                 <li>✅ マスに必要なポイントが貯まると、そのマスが埋まります</li>
                 <li>🎯 縦・横・斜めのいずれか1列揃えばビンゴ達成！</li>
             </ul>
         </div>
 
         <div class="info-section">
-            <h2>C・D店のプレミアム条件</h2>
+            <h2><span class="desc-cd-stores-premium">C・D店</span>のプレミアム条件</h2>
             <ul>
                 <li>① コラボメニューを注文</li>
                 <li>② 店舗のInstagramをフォロー</li>
@@ -745,6 +745,17 @@
             document.querySelector('.legend-name-b').textContent = stores.b;
             document.querySelector('.legend-name-c').textContent = stores.c;
             document.querySelector('.legend-name-d').textContent = stores.d;
+
+            // 説明文の店舗名を更新
+            const abStores = `${stores.a}・${stores.b}`;
+            const cdStores = `${stores.c}・${stores.d}`;
+
+            document.querySelectorAll('.desc-ab-stores').forEach(el => {
+                el.textContent = abStores;
+            });
+            document.querySelectorAll('.desc-cd-stores, .desc-cd-stores-premium').forEach(el => {
+                el.textContent = cdStores;
+            });
         }
 
         // モーダル外クリックで閉じる
