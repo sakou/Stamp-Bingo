@@ -5,6 +5,8 @@ import Button from '@/components/ui/Button'
 import Link from 'next/link'
 import Card from '@/components/ui/Card'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminDashboardPage() {
   const admin = await getCurrentAdmin()
   if (!admin) {

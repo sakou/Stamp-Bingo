@@ -4,6 +4,8 @@ import EventForm from '@/components/admin/EventForm'
 import Button from '@/components/ui/Button'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default async function NewEventPage() {
   const admin = await getCurrentAdmin()
   if (!admin) {

@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation'
 import { getCurrentAdmin } from '@/app/actions/admin/auth'
 import LoginForm from '@/components/admin/LoginForm'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminLoginPage() {
   // すでにログイン済みの場合はダッシュボードへ
   const admin = await getCurrentAdmin()

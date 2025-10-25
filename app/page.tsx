@@ -4,6 +4,8 @@ import BingoCard from '@/components/user/BingoCard'
 import Button from '@/components/ui/Button'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
   // アクティブなイベントIDを取得
   const eventId = await getActiveEventId()
@@ -36,7 +38,9 @@ export default async function HomePage() {
         <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
           <h1 className="text-2xl font-bold text-red-600 mb-4">エラー</h1>
           <p className="text-gray-600 mb-6">イベントデータの読み込みに失敗しました。</p>
-          <Button onClick={() => window.location.reload()}>再読み込み</Button>
+          <Link href="/">
+            <Button>再読み込み</Button>
+          </Link>
         </div>
       </div>
     )
