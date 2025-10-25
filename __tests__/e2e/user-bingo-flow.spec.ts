@@ -33,8 +33,13 @@ test.describe('User Bingo Flow', () => {
 
   test('should display store progress summary', async ({ page }) => {
     // 各店舗の進捗サマリーが表示されていることを確認
-    const progressSection = page.locator('text=/訪問/i').first()
+    // "/ 6" という形式で訪問回数が表示されている
+    const progressSection = page.locator('text=/ 6').first()
     await expect(progressSection).toBeVisible()
+
+    // 店舗名も表示されていることを確認
+    const storeLabel = page.locator('text=/[a-d]店/i').first()
+    await expect(storeLabel).toBeVisible()
   })
 
   test('should display prizes information', async ({ page }) => {
