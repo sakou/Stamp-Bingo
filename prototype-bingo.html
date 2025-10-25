@@ -134,26 +134,18 @@
         }
 
         .points {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 5px 0;
+            display: none;
         }
 
-        .store-a .points { color: #3498db; }
-        .store-b .points { color: #2ecc71; }
-        .store-c .points { color: #e74c3c; }
-        .store-d .points { color: #f39c12; }
-
         .mission {
-            font-size: 11px;
+            font-size: 14px;
             color: #666;
             text-align: center;
+            font-weight: 600;
         }
 
         .progress {
-            font-size: 12px;
-            color: #999;
-            margin-top: 5px;
+            display: none;
         }
 
         /* FREEマス */
@@ -584,21 +576,11 @@
 
             .store-name {
                 font-size: 10px;
-                margin-bottom: 2px;
-            }
-
-            .points {
-                font-size: 16px;
-                margin: 2px 0;
+                margin-bottom: 3px;
             }
 
             .mission {
-                font-size: 9px;
-            }
-
-            .progress {
-                font-size: 9px;
-                margin-top: 2px;
+                font-size: 11px;
             }
 
             .bingo-cell.free .free-text {
@@ -951,11 +933,11 @@
             <h2>遊び方</h2>
             <ul>
                 <li>🏪 各店舗でQRコードをスキャンしてスタンプをゲット</li>
-                <li>📍 全てのマスは1ポイント</li>
                 <li>✅ スタンプを集めて各マスを埋めていきます</li>
                 <li>⭐ <span class="desc-cd-stores">C・D店</span>には通常QRとプレミアムQRがあり、条件が異なります</li>
                 <li>🎯 縦・横・斜めのいずれか1列揃えばビンゴ達成！</li>
                 <li>🎁 真ん中のマスはFREE（最初から達成済み）</li>
+                <li>🏆 ビンゴのライン数に応じて景品がグレードアップ！</li>
             </ul>
         </div>
 
@@ -970,15 +952,15 @@
             <h2>景品</h2>
             <div class="prizes">
                 <div class="prize">
-                    <div class="prize-level">レベル1（シングルビンゴ）</div>
+                    <div class="prize-level">1ライン達成</div>
                     <div class="prize-reward">10%割引クーポン</div>
                 </div>
                 <div class="prize">
-                    <div class="prize-level">レベル2（ダブルビンゴ）</div>
+                    <div class="prize-level">2ライン達成</div>
                     <div class="prize-reward">¥1,000食事券</div>
                 </div>
                 <div class="prize">
-                    <div class="prize-level">レベル3（フルコンプリート）</div>
+                    <div class="prize-level">3ライン達成</div>
                     <div class="prize-reward">¥5,000食事券</div>
                 </div>
             </div>
@@ -1005,7 +987,7 @@
 
         <div class="note">
             <strong>⚠️ 重要な注意事項</strong>
-            同じ店舗でも、ミッション（マス）が異なれば再度訪問が必要です。ポイントは各マスごとに累積されます。ブラウザの変更やCookieの削除でデータが消える可能性がありますのでご注意ください。
+            同じ店舗でも、ミッション（マス）が異なれば再度訪問が必要です。ブラウザの変更やCookieの削除でデータが消える可能性がありますのでご注意ください。
         </div>
     </div>
 
@@ -1368,13 +1350,8 @@
                     return;
                 }
 
+                // 達成/未達成を切り替え
                 this.classList.toggle('completed');
-                const progress = this.querySelector('.progress');
-                if (this.classList.contains('completed')) {
-                    progress.textContent = '達成！';
-                } else {
-                    progress.textContent = progress.textContent.replace('達成！', '0/' + this.querySelector('.points').textContent.replace('pt', 'pt'));
-                }
             });
         });
     </script>
