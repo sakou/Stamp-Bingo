@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>4店舗合同プレミアム・スタンプラリー - ビンゴカード</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -1425,7 +1426,7 @@
                         igLink.href = storeData.instagram;
                         igLink.className = 'sns-link instagram';
                         igLink.target = '_blank';
-                        igLink.innerHTML = '📷';
+                        igLink.innerHTML = '<i class="fa-brands fa-instagram"></i>';
                         igLink.title = 'Instagram';
                         snsContainer.appendChild(igLink);
                     }
@@ -1435,7 +1436,7 @@
                         twLink.href = storeData.twitter;
                         twLink.className = 'sns-link twitter';
                         twLink.target = '_blank';
-                        twLink.innerHTML = '𝕏';
+                        twLink.innerHTML = '<i class="fa-brands fa-x-twitter"></i>';
                         twLink.title = 'X (Twitter)';
                         snsContainer.appendChild(twLink);
                     }
@@ -1445,7 +1446,7 @@
                         tkLink.href = storeData.tiktok;
                         tkLink.className = 'sns-link tiktok';
                         tkLink.target = '_blank';
-                        tkLink.innerHTML = '♪';
+                        tkLink.innerHTML = '<i class="fa-brands fa-tiktok"></i>';
                         tkLink.title = 'TikTok';
                         snsContainer.appendChild(tkLink);
                     }
