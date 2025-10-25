@@ -3,6 +3,10 @@ name: Test
 on:
   push:
     branches: [main, develop, 'claude/**']
+    paths-ignore:           # ← この3行を追加
+        - 'docs/**'
+        - '.claude/**'
+        - '**/*.md'
   pull_request:
     branches: [main, develop]
 
