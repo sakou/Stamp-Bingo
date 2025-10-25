@@ -28,6 +28,28 @@
             max-width: 600px;
             width: 100%;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .settings-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .settings-btn:hover {
+            background: #764ba2;
+            transform: rotate(90deg);
         }
 
         .header {
@@ -99,14 +121,15 @@
 
         .bingo-cell.completed .store-name,
         .bingo-cell.completed .points,
-        .bingo-cell.completed .condition {
+        .bingo-cell.completed .mission {
             color: white;
         }
 
         .store-name {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             margin-bottom: 5px;
+            text-align: center;
         }
 
         .points {
@@ -120,7 +143,7 @@
         .store-c .points { color: #e74c3c; }
         .store-d .points { color: #f39c12; }
 
-        .condition {
+        .mission {
             font-size: 11px;
             color: #666;
             text-align: center;
@@ -227,6 +250,119 @@
             margin-bottom: 8px;
         }
 
+        /* モーダル */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #999;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
         /* モバイル対応 */
         @media (max-width: 480px) {
             body {
@@ -238,9 +374,18 @@
                 border-radius: 15px;
             }
 
+            .settings-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+                top: 15px;
+                right: 15px;
+            }
+
             .header h1 {
                 font-size: 18px;
                 margin-bottom: 5px;
+                padding-right: 40px;
             }
 
             .header p {
@@ -263,7 +408,7 @@
             }
 
             .store-name {
-                font-size: 11px;
+                font-size: 10px;
                 margin-bottom: 2px;
             }
 
@@ -272,7 +417,7 @@
                 margin: 2px 0;
             }
 
-            .condition {
+            .mission {
                 font-size: 9px;
             }
 
@@ -342,11 +487,34 @@
                 margin-bottom: 5px;
                 font-size: 12px;
             }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .modal-header h2 {
+                font-size: 18px;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-group label {
+                font-size: 12px;
+            }
+
+            .form-group input {
+                padding: 10px;
+                font-size: 13px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <button class="settings-btn" onclick="openSettings()">⚙️</button>
+
         <div class="header">
             <h1>4店舗合同 プレミアム・スタンプラリー</h1>
             <p>ビンゴを達成して豪華景品をゲット！</p>
@@ -354,62 +522,62 @@
 
         <div class="bingo-card">
             <!-- Row 1 -->
-            <div class="bingo-cell store-a">
+            <div class="bingo-cell store-a" data-store="a">
                 <div class="store-name">A店</div>
                 <div class="points">1pt</div>
-                <div class="condition">条件1</div>
+                <div class="mission">ミッション1</div>
                 <div class="progress">0/1pt</div>
             </div>
-            <div class="bingo-cell store-c">
+            <div class="bingo-cell store-c" data-store="c">
                 <div class="store-name">C店</div>
                 <div class="points">2pt</div>
-                <div class="condition">条件2</div>
+                <div class="mission">ミッション2</div>
                 <div class="progress">0/2pt</div>
             </div>
-            <div class="bingo-cell store-b">
+            <div class="bingo-cell store-b" data-store="b">
                 <div class="store-name">B店</div>
                 <div class="points">1pt</div>
-                <div class="condition">条件3</div>
+                <div class="mission">ミッション3</div>
                 <div class="progress">0/1pt</div>
             </div>
 
             <!-- Row 2 -->
-            <div class="bingo-cell store-c">
+            <div class="bingo-cell store-c" data-store="c">
                 <div class="store-name">C店</div>
                 <div class="points">2pt</div>
-                <div class="condition">条件4</div>
+                <div class="mission">ミッション4</div>
                 <div class="progress">0/2pt</div>
             </div>
-            <div class="bingo-cell store-d">
+            <div class="bingo-cell store-d" data-store="d">
                 <div class="store-name">D店</div>
                 <div class="points">2pt</div>
-                <div class="condition">条件5</div>
+                <div class="mission">ミッション5</div>
                 <div class="progress">0/2pt</div>
             </div>
-            <div class="bingo-cell store-a">
+            <div class="bingo-cell store-a" data-store="a">
                 <div class="store-name">A店</div>
                 <div class="points">1pt</div>
-                <div class="condition">条件6</div>
+                <div class="mission">ミッション6</div>
                 <div class="progress">0/1pt</div>
             </div>
 
             <!-- Row 3 -->
-            <div class="bingo-cell store-b">
+            <div class="bingo-cell store-b" data-store="b">
                 <div class="store-name">B店</div>
                 <div class="points">1pt</div>
-                <div class="condition">条件7</div>
+                <div class="mission">ミッション7</div>
                 <div class="progress">0/1pt</div>
             </div>
-            <div class="bingo-cell store-a">
+            <div class="bingo-cell store-a" data-store="a">
                 <div class="store-name">A店</div>
                 <div class="points">1pt</div>
-                <div class="condition">条件8</div>
+                <div class="mission">ミッション8</div>
                 <div class="progress">0/1pt</div>
             </div>
-            <div class="bingo-cell store-d">
+            <div class="bingo-cell store-d" data-store="d">
                 <div class="store-name">D店</div>
                 <div class="points">2pt</div>
-                <div class="condition">条件9</div>
+                <div class="mission">ミッション9</div>
                 <div class="progress">0/2pt</div>
             </div>
         </div>
@@ -430,9 +598,9 @@
             <ul>
                 <li>① コラボメニューを注文</li>
                 <li>② 店舗のInstagramをフォロー</li>
-                <li>③ SNSに投稿 または アンケートに回答</li>
+                <li>③ 投稿にタグ付けしてシェア</li>
             </ul>
-            <p style="margin-top: 10px; font-size: 13px; color: #666;">※すべて満たすと2ポイント獲得！</p>
+            <p style="margin-top: 10px; font-size: 13px; color: #666;">※すべて満たすと2ポイント獲得！既にフォロー済みの方は②はスキップOK</p>
         </div>
 
         <div class="info-section">
@@ -456,29 +624,137 @@
         <div class="legend">
             <div class="legend-item">
                 <div class="legend-color legend-a"></div>
-                <span>A店</span>
+                <span class="legend-name-a">A店</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color legend-b"></div>
-                <span>B店</span>
+                <span class="legend-name-b">B店</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color legend-c"></div>
-                <span>C店</span>
+                <span class="legend-name-c">C店</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color legend-d"></div>
-                <span>D店</span>
+                <span class="legend-name-d">D店</span>
             </div>
         </div>
 
         <div class="note">
             <strong>⚠️ 重要な注意事項</strong>
-            同じ店舗でも、条件（マス）が異なれば再度訪問が必要です。例えば「C店 条件2」と「C店 条件4」は別々に達成する必要があります。ポイントは各マスごとに累積されます。
+            同じ店舗でも、ミッション（マス）が異なれば再度訪問が必要です。例えば「C店 ミッション2」と「C店 ミッション4」は別々に達成する必要があります。ポイントは各マスごとに累積されます。
+        </div>
+    </div>
+
+    <!-- 設定モーダル -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>店舗名設定</h2>
+                <button class="close-btn" onclick="closeSettings()">&times;</button>
+            </div>
+            <form onsubmit="saveSettings(event)">
+                <div class="form-group">
+                    <label for="storeA">A店の名前</label>
+                    <input type="text" id="storeA" placeholder="例: カフェ○○" required>
+                </div>
+                <div class="form-group">
+                    <label for="storeB">B店の名前</label>
+                    <input type="text" id="storeB" placeholder="例: レストラン△△" required>
+                </div>
+                <div class="form-group">
+                    <label for="storeC">C店の名前</label>
+                    <input type="text" id="storeC" placeholder="例: バー□□" required>
+                </div>
+                <div class="form-group">
+                    <label for="storeD">D店の名前</label>
+                    <input type="text" id="storeD" placeholder="例: 居酒屋◇◇" required>
+                </div>
+                <button type="submit" class="save-btn">保存</button>
+            </form>
         </div>
     </div>
 
     <script>
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStoreNames();
+        });
+
+        // 設定モーダルを開く
+        function openSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.classList.add('show');
+
+            // 現在の値を読み込み
+            const stores = JSON.parse(localStorage.getItem('storeNames')) || {
+                a: 'A店',
+                b: 'B店',
+                c: 'C店',
+                d: 'D店'
+            };
+
+            document.getElementById('storeA').value = stores.a;
+            document.getElementById('storeB').value = stores.b;
+            document.getElementById('storeC').value = stores.c;
+            document.getElementById('storeD').value = stores.d;
+        }
+
+        // 設定モーダルを閉じる
+        function closeSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.classList.remove('show');
+        }
+
+        // 設定を保存
+        function saveSettings(event) {
+            event.preventDefault();
+
+            const stores = {
+                a: document.getElementById('storeA').value,
+                b: document.getElementById('storeB').value,
+                c: document.getElementById('storeC').value,
+                d: document.getElementById('storeD').value
+            };
+
+            localStorage.setItem('storeNames', JSON.stringify(stores));
+            loadStoreNames();
+            closeSettings();
+        }
+
+        // 店舗名を読み込んで表示
+        function loadStoreNames() {
+            const stores = JSON.parse(localStorage.getItem('storeNames')) || {
+                a: 'A店',
+                b: 'B店',
+                c: 'C店',
+                d: 'D店'
+            };
+
+            // ビンゴカードの店舗名を更新
+            document.querySelectorAll('.bingo-cell').forEach(cell => {
+                const storeType = cell.dataset.store;
+                const storeName = cell.querySelector('.store-name');
+                if (storeName && stores[storeType]) {
+                    storeName.textContent = stores[storeType];
+                }
+            });
+
+            // レジェンドの店舗名を更新
+            document.querySelector('.legend-name-a').textContent = stores.a;
+            document.querySelector('.legend-name-b').textContent = stores.b;
+            document.querySelector('.legend-name-c').textContent = stores.c;
+            document.querySelector('.legend-name-d').textContent = stores.d;
+        }
+
+        // モーダル外クリックで閉じる
+        window.onclick = function(event) {
+            const modal = document.getElementById('settingsModal');
+            if (event.target === modal) {
+                closeSettings();
+            }
+        }
+
         // クリックでマスの状態を切り替えるデモ機能
         document.querySelectorAll('.bingo-cell').forEach(cell => {
             cell.addEventListener('click', function() {
