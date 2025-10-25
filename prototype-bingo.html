@@ -71,8 +71,8 @@
 
         .bingo-card {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
             margin-bottom: 30px;
         }
 
@@ -154,6 +154,18 @@
             font-size: 12px;
             color: #999;
             margin-top: 5px;
+        }
+
+        /* FREEマス */
+        .bingo-cell.free {
+            border-color: #9c27b0;
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+        }
+
+        .bingo-cell.free .free-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #9c27b0;
         }
 
         /* 店舗紹介セクション */
@@ -575,6 +587,10 @@
                 margin-top: 2px;
             }
 
+            .bingo-cell.free .free-text {
+                font-size: 18px;
+            }
+
             .stores-intro h2 {
                 font-size: 16px;
                 margin-bottom: 15px;
@@ -718,9 +734,9 @@
             </div>
             <div class="bingo-cell store-c" data-store="c">
                 <div class="store-name">C店</div>
-                <div class="points">2pt</div>
+                <div class="points">1pt</div>
                 <div class="mission">ミッション2</div>
-                <div class="progress">0/2pt</div>
+                <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-b" data-store="b">
                 <div class="store-name">B店</div>
@@ -728,24 +744,48 @@
                 <div class="mission">ミッション3</div>
                 <div class="progress">0/1pt</div>
             </div>
-
-            <!-- Row 2 -->
-            <div class="bingo-cell store-c" data-store="c">
-                <div class="store-name">C店</div>
-                <div class="points">2pt</div>
-                <div class="mission">ミッション4</div>
-                <div class="progress">0/2pt</div>
-            </div>
             <div class="bingo-cell store-d" data-store="d">
                 <div class="store-name">D店</div>
                 <div class="points">2pt</div>
-                <div class="mission">ミッション5</div>
+                <div class="mission">ミッション4</div>
                 <div class="progress">0/2pt</div>
             </div>
             <div class="bingo-cell store-a" data-store="a">
                 <div class="store-name">A店</div>
                 <div class="points">1pt</div>
+                <div class="mission">ミッション5</div>
+                <div class="progress">0/1pt</div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="bingo-cell store-c" data-store="c">
+                <div class="store-name">C店</div>
+                <div class="points">2pt</div>
                 <div class="mission">ミッション6</div>
+                <div class="progress">0/2pt</div>
+            </div>
+            <div class="bingo-cell store-b" data-store="b">
+                <div class="store-name">B店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション7</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-d" data-store="d">
+                <div class="store-name">D店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション8</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-a" data-store="a">
+                <div class="store-name">A店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション9</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-c" data-store="c">
+                <div class="store-name">C店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション10</div>
                 <div class="progress">0/1pt</div>
             </div>
 
@@ -753,20 +793,93 @@
             <div class="bingo-cell store-b" data-store="b">
                 <div class="store-name">B店</div>
                 <div class="points">1pt</div>
-                <div class="mission">ミッション7</div>
+                <div class="mission">ミッション11</div>
                 <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-d" data-store="d">
+                <div class="store-name">D店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション12</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell free">
+                <div class="free-text">FREE</div>
+            </div>
+            <div class="bingo-cell store-c" data-store="c">
+                <div class="store-name">C店</div>
+                <div class="points">2pt</div>
+                <div class="mission">ミッション13</div>
+                <div class="progress">0/2pt</div>
             </div>
             <div class="bingo-cell store-a" data-store="a">
                 <div class="store-name">A店</div>
                 <div class="points">1pt</div>
-                <div class="mission">ミッション8</div>
+                <div class="mission">ミッション14</div>
+                <div class="progress">0/1pt</div>
+            </div>
+
+            <!-- Row 4 -->
+            <div class="bingo-cell store-d" data-store="d">
+                <div class="store-name">D店</div>
+                <div class="points">2pt</div>
+                <div class="mission">ミッション15</div>
+                <div class="progress">0/2pt</div>
+            </div>
+            <div class="bingo-cell store-a" data-store="a">
+                <div class="store-name">A店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション16</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-c" data-store="c">
+                <div class="store-name">C店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション17</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-b" data-store="b">
+                <div class="store-name">B店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション18</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-d" data-store="d">
+                <div class="store-name">D店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション19</div>
+                <div class="progress">0/1pt</div>
+            </div>
+
+            <!-- Row 5 -->
+            <div class="bingo-cell store-b" data-store="b">
+                <div class="store-name">B店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション20</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-c" data-store="c">
+                <div class="store-name">C店</div>
+                <div class="points">2pt</div>
+                <div class="mission">ミッション21</div>
+                <div class="progress">0/2pt</div>
+            </div>
+            <div class="bingo-cell store-a" data-store="a">
+                <div class="store-name">A店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション22</div>
                 <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-d" data-store="d">
                 <div class="store-name">D店</div>
                 <div class="points">2pt</div>
-                <div class="mission">ミッション9</div>
+                <div class="mission">ミッション23</div>
                 <div class="progress">0/2pt</div>
+            </div>
+            <div class="bingo-cell store-b" data-store="b">
+                <div class="store-name">B店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション24</div>
+                <div class="progress">0/1pt</div>
             </div>
         </div>
 
