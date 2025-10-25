@@ -71,8 +71,8 @@
 
         .bingo-card {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
             margin-bottom: 30px;
         }
 
@@ -134,26 +134,44 @@
         }
 
         .points {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 5px 0;
+            display: none;
         }
 
-        .store-a .points { color: #3498db; }
-        .store-b .points { color: #2ecc71; }
-        .store-c .points { color: #e74c3c; }
-        .store-d .points { color: #f39c12; }
-
         .mission {
-            font-size: 11px;
+            font-size: 14px;
             color: #666;
             text-align: center;
+            font-weight: 600;
         }
 
         .progress {
-            font-size: 12px;
-            color: #999;
-            margin-top: 5px;
+            display: none;
+        }
+
+        /* FREEマス */
+        .bingo-cell.free {
+            border-color: #9c27b0;
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            cursor: default;
+        }
+
+        .bingo-cell.free:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .bingo-cell.free.completed {
+            background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+        }
+
+        .bingo-cell.free.completed .free-text {
+            color: white;
+        }
+
+        .bingo-cell.free .free-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #9c27b0;
         }
 
         /* 店舗紹介セクション */
@@ -558,21 +576,15 @@
 
             .store-name {
                 font-size: 10px;
-                margin-bottom: 2px;
-            }
-
-            .points {
-                font-size: 16px;
-                margin: 2px 0;
+                margin-bottom: 3px;
             }
 
             .mission {
-                font-size: 9px;
+                font-size: 11px;
             }
 
-            .progress {
-                font-size: 9px;
-                margin-top: 2px;
+            .bingo-cell.free .free-text {
+                font-size: 18px;
             }
 
             .stores-intro h2 {
@@ -718,9 +730,9 @@
             </div>
             <div class="bingo-cell store-c" data-store="c">
                 <div class="store-name">C店</div>
-                <div class="points">2pt</div>
+                <div class="points">1pt</div>
                 <div class="mission">ミッション2</div>
-                <div class="progress">0/2pt</div>
+                <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-b" data-store="b">
                 <div class="store-name">B店</div>
@@ -728,24 +740,48 @@
                 <div class="mission">ミッション3</div>
                 <div class="progress">0/1pt</div>
             </div>
-
-            <!-- Row 2 -->
-            <div class="bingo-cell store-c" data-store="c">
-                <div class="store-name">C店</div>
-                <div class="points">2pt</div>
-                <div class="mission">ミッション4</div>
-                <div class="progress">0/2pt</div>
-            </div>
             <div class="bingo-cell store-d" data-store="d">
                 <div class="store-name">D店</div>
-                <div class="points">2pt</div>
-                <div class="mission">ミッション5</div>
-                <div class="progress">0/2pt</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション4</div>
+                <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-a" data-store="a">
                 <div class="store-name">A店</div>
                 <div class="points">1pt</div>
+                <div class="mission">ミッション5</div>
+                <div class="progress">0/1pt</div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="bingo-cell store-c" data-store="c">
+                <div class="store-name">C店</div>
+                <div class="points">1pt</div>
                 <div class="mission">ミッション6</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-b" data-store="b">
+                <div class="store-name">B店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション7</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-d" data-store="d">
+                <div class="store-name">D店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション8</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-a" data-store="a">
+                <div class="store-name">A店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション9</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-c" data-store="c">
+                <div class="store-name">C店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション10</div>
                 <div class="progress">0/1pt</div>
             </div>
 
@@ -753,20 +789,93 @@
             <div class="bingo-cell store-b" data-store="b">
                 <div class="store-name">B店</div>
                 <div class="points">1pt</div>
-                <div class="mission">ミッション7</div>
+                <div class="mission">ミッション11</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-d" data-store="d">
+                <div class="store-name">D店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション12</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell free">
+                <div class="free-text">FREE</div>
+            </div>
+            <div class="bingo-cell store-c" data-store="c">
+                <div class="store-name">C店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション13</div>
                 <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-a" data-store="a">
                 <div class="store-name">A店</div>
                 <div class="points">1pt</div>
-                <div class="mission">ミッション8</div>
+                <div class="mission">ミッション14</div>
+                <div class="progress">0/1pt</div>
+            </div>
+
+            <!-- Row 4 -->
+            <div class="bingo-cell store-d" data-store="d">
+                <div class="store-name">D店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション15</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-a" data-store="a">
+                <div class="store-name">A店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション16</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-c" data-store="c">
+                <div class="store-name">C店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション17</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-b" data-store="b">
+                <div class="store-name">B店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション18</div>
                 <div class="progress">0/1pt</div>
             </div>
             <div class="bingo-cell store-d" data-store="d">
                 <div class="store-name">D店</div>
-                <div class="points">2pt</div>
-                <div class="mission">ミッション9</div>
-                <div class="progress">0/2pt</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション19</div>
+                <div class="progress">0/1pt</div>
+            </div>
+
+            <!-- Row 5 -->
+            <div class="bingo-cell store-b" data-store="b">
+                <div class="store-name">B店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション20</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-c" data-store="c">
+                <div class="store-name">C店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション21</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-a" data-store="a">
+                <div class="store-name">A店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション22</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-d" data-store="d">
+                <div class="store-name">D店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション23</div>
+                <div class="progress">0/1pt</div>
+            </div>
+            <div class="bingo-cell store-b" data-store="b">
+                <div class="store-name">B店</div>
+                <div class="points">1pt</div>
+                <div class="mission">ミッション24</div>
+                <div class="progress">0/1pt</div>
             </div>
         </div>
 
@@ -824,10 +933,11 @@
             <h2>遊び方</h2>
             <ul>
                 <li>🏪 各店舗でQRコードをスキャンしてスタンプをゲット</li>
-                <li>📍 <span class="desc-ab-stores">A・B店</span>: 1ポイント獲得</li>
-                <li>⭐ <span class="desc-cd-stores">C・D店</span>: 通常1ポイント、特別条件達成で2ポイント</li>
-                <li>✅ マスに必要なポイントが貯まると、そのマスが埋まります</li>
+                <li>✅ スタンプを集めて各マスを埋めていきます</li>
+                <li>⭐ <span class="desc-cd-stores">C・D店</span>には通常QRとプレミアムQRがあり、条件が異なります</li>
                 <li>🎯 縦・横・斜めのいずれか1列揃えばビンゴ達成！</li>
+                <li>🎁 真ん中のマスはFREE（最初から達成済み）</li>
+                <li>🏆 ビンゴのライン数に応じて景品がグレードアップ！</li>
             </ul>
         </div>
 
@@ -842,15 +952,15 @@
             <h2>景品</h2>
             <div class="prizes">
                 <div class="prize">
-                    <div class="prize-level">レベル1（シングルビンゴ）</div>
+                    <div class="prize-level">1ライン達成</div>
                     <div class="prize-reward">10%割引クーポン</div>
                 </div>
                 <div class="prize">
-                    <div class="prize-level">レベル2（ダブルビンゴ）</div>
+                    <div class="prize-level">2ライン達成</div>
                     <div class="prize-reward">¥1,000食事券</div>
                 </div>
                 <div class="prize">
-                    <div class="prize-level">レベル3（フルコンプリート）</div>
+                    <div class="prize-level">3ライン達成</div>
                     <div class="prize-reward">¥5,000食事券</div>
                 </div>
             </div>
@@ -877,7 +987,7 @@
 
         <div class="note">
             <strong>⚠️ 重要な注意事項</strong>
-            同じ店舗でも、ミッション（マス）が異なれば再度訪問が必要です。ポイントは各マスごとに累積されます。ブラウザの変更やCookieの削除でデータが消える可能性がありますのでご注意ください。
+            同じ店舗でも、ミッション（マス）が異なれば再度訪問が必要です。ブラウザの変更やCookieの削除でデータが消える可能性がありますのでご注意ください。
         </div>
     </div>
 
@@ -1216,6 +1326,12 @@
                     conditionsContent.innerHTML = '<p>条件が設定されていません。管理者が条件を設定してください。</p>';
                 }
             }
+
+            // FREEマスを自動的に達成済みにする
+            const freeCell = document.querySelector('.bingo-cell.free');
+            if (freeCell) {
+                freeCell.classList.add('completed');
+            }
         }
 
         // モーダル外クリックで閉じる
@@ -1229,13 +1345,13 @@
         // クリックでマスの状態を切り替えるデモ機能
         document.querySelectorAll('.bingo-cell').forEach(cell => {
             cell.addEventListener('click', function() {
-                this.classList.toggle('completed');
-                const progress = this.querySelector('.progress');
-                if (this.classList.contains('completed')) {
-                    progress.textContent = '達成！';
-                } else {
-                    progress.textContent = progress.textContent.replace('達成！', '0/' + this.querySelector('.points').textContent.replace('pt', 'pt'));
+                // FREEマスはクリックしても何もしない
+                if (this.classList.contains('free')) {
+                    return;
                 }
+
+                // 達成/未達成を切り替え
+                this.classList.toggle('completed');
             });
         });
     </script>
