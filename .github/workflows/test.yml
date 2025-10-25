@@ -43,7 +43,7 @@ jobs:
           DATABASE_URL: postgresql://bingo_user:bingo_password@localhost:5432/bingo_db
         run: |
           npx prisma generate
-          npx prisma migrate deploy
+          npx prisma db push --accept-data-loss
           npx prisma db seed
 
 
