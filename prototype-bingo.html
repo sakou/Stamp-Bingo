@@ -716,8 +716,8 @@
         <button class="settings-btn" onclick="openSettings()">⚙️</button>
 
         <div class="header">
-            <h1>4店舗合同 プレミアム・スタンプラリー</h1>
-            <p>ビンゴを達成して豪華景品をゲット！</p>
+            <h1 id="eventTitle">4店舗合同 ビンゴスタンプラリー</h1>
+            <p id="eventPeriod">期間: 2025-04-01 〜 2025-04-30</p>
         </div>
 
         <div class="bingo-card">
@@ -995,26 +995,41 @@
     <div id="settingsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>店舗情報設定</h2>
+                <h2>イベント設定</h2>
                 <button class="close-btn" onclick="closeSettings()">&times;</button>
             </div>
 
             <!-- タブ -->
             <div class="tabs">
-                <button class="tab active" onclick="switchTab('general')">全体設定</button>
+                <button class="tab active" onclick="switchTab('basic')">基本情報</button>
                 <button class="tab" onclick="switchTab('a')">A店</button>
                 <button class="tab" onclick="switchTab('b')">B店</button>
                 <button class="tab" onclick="switchTab('c')">C店</button>
                 <button class="tab" onclick="switchTab('d')">D店</button>
+                <button class="tab" onclick="switchTab('conditions')">参加条件</button>
+                <button class="tab" onclick="switchTab('prizes')">景品設定</button>
             </div>
 
             <form onsubmit="saveSettings(event)">
-                <!-- 全体設定 -->
-                <div id="tab-general" class="tab-content active">
+                <!-- 基本情報 -->
+                <div id="tab-basic" class="tab-content active">
                     <div class="form-group">
-                        <label for="conditions">参加条件</label>
-                        <textarea id="conditions" placeholder="スタンプラリーの参加条件を記載してください。例：&#10;① コラボメニューを注文&#10;② 店舗のInstagramをフォロー&#10;③ 投稿にタグ付けしてシェア" rows="6"></textarea>
-                        <small>利用者にも表示されます。改行で条件を分けて記載できます。</small>
+                        <label for="eventName">イベント名 *</label>
+                        <input type="text" id="eventName" placeholder="例: 春の4店舗合同ビンゴラリー" required>
+                        <small>利用者画面のタイトルとして表示されます</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">開始日 *</label>
+                        <input type="date" id="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">終了日 *</label>
+                        <input type="date" id="endDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventDescription">イベント説明</label>
+                        <textarea id="eventDescription" placeholder="イベントの簡単な説明を入力してください" rows="3"></textarea>
+                        <small>任意項目。将来的に利用者画面に表示予定</small>
                     </div>
                 </div>
 
@@ -1126,12 +1141,81 @@
                     </div>
                 </div>
 
+                <!-- 参加条件 -->
+                <div id="tab-conditions" class="tab-content">
+                    <div class="form-group">
+                        <label for="conditions">参加条件</label>
+                        <textarea id="conditions" placeholder="スタンプラリーの参加条件を記載してください。例：&#10;① コラボメニューを注文&#10;② 店舗のInstagramをフォロー&#10;③ 投稿にタグ付けしてシェア" rows="6"></textarea>
+                        <small>利用者にも表示されます。改行で条件を分けて記載できます。</small>
+                    </div>
+                </div>
+
+                <!-- 景品設定 -->
+                <div id="tab-prizes" class="tab-content">
+                    <h3>1ライン達成</h3>
+                    <div class="form-group">
+                        <label for="prize1Name">景品名 *</label>
+                        <input type="text" id="prize1Name" placeholder="例: 10%割引クーポン" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prize1Description">景品説明</label>
+                        <textarea id="prize1Description" placeholder="景品の詳細説明" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="prize1ValidUntil">有効期限</label>
+                        <input type="date" id="prize1ValidUntil">
+                        <small>景品の有効期限（空欄可）</small>
+                    </div>
+
+                    <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
+
+                    <h3>2ライン達成</h3>
+                    <div class="form-group">
+                        <label for="prize2Name">景品名 *</label>
+                        <input type="text" id="prize2Name" placeholder="例: ¥1,000食事券" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prize2Description">景品説明</label>
+                        <textarea id="prize2Description" placeholder="景品の詳細説明" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="prize2ValidUntil">有効期限</label>
+                        <input type="date" id="prize2ValidUntil">
+                        <small>景品の有効期限（空欄可）</small>
+                    </div>
+
+                    <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
+
+                    <h3>3ライン達成</h3>
+                    <div class="form-group">
+                        <label for="prize3Name">景品名 *</label>
+                        <input type="text" id="prize3Name" placeholder="例: ¥5,000食事券" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prize3Description">景品説明</label>
+                        <textarea id="prize3Description" placeholder="景品の詳細説明" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="prize3ValidUntil">有効期限</label>
+                        <input type="date" id="prize3ValidUntil">
+                        <small>景品の有効期限（空欄可）</small>
+                    </div>
+                </div>
+
                 <button type="submit" class="save-btn">保存</button>
             </form>
         </div>
     </div>
 
     <script>
+        // デフォルトのイベント基本情報
+        const defaultEventInfo = {
+            eventName: '4店舗合同 ビンゴスタンプラリー',
+            startDate: '2025-04-01',
+            endDate: '2025-04-30',
+            description: ''
+        };
+
         // デフォルトの店舗情報
         const defaultStores = {
             a: { name: 'A店', instagram: '', twitter: '', tiktok: '', description: '素敵なお店です' },
@@ -1140,9 +1224,16 @@
             d: { name: 'D店', instagram: '', twitter: '', tiktok: '', description: '素敵なお店です' }
         };
 
-        // デフォルトの全体設定
-        const defaultGeneralSettings = {
+        // デフォルトの参加条件
+        const defaultConditions = {
             conditions: '① コラボメニューを注文\n② 店舗のInstagramをフォロー\n③ 投稿にタグ付けしてシェア'
+        };
+
+        // デフォルトの景品情報
+        const defaultPrizes = {
+            line1: { name: '10%割引クーポン', description: '次回利用時に使える割引クーポン', validUntil: '' },
+            line2: { name: '¥1,000食事券', description: '参加4店舗で使える食事券', validUntil: '' },
+            line3: { name: '¥5,000食事券', description: '参加4店舗で使える食事券', validUntil: '' }
         };
 
         // 初期化
@@ -1171,11 +1262,30 @@
             modal.classList.add('show');
 
             // 現在の値を読み込み
+            const eventInfo = JSON.parse(localStorage.getItem('eventInfo')) || defaultEventInfo;
             const stores = JSON.parse(localStorage.getItem('storeInfo')) || defaultStores;
-            const generalSettings = JSON.parse(localStorage.getItem('generalSettings')) || defaultGeneralSettings;
+            const conditions = JSON.parse(localStorage.getItem('conditions')) || defaultConditions;
+            const prizes = JSON.parse(localStorage.getItem('prizes')) || defaultPrizes;
 
-            // 全体設定の入力欄に値を設定
-            document.getElementById('conditions').value = generalSettings.conditions || '';
+            // 基本情報の入力欄に値を設定
+            document.getElementById('eventName').value = eventInfo.eventName || '';
+            document.getElementById('startDate').value = eventInfo.startDate || '';
+            document.getElementById('endDate').value = eventInfo.endDate || '';
+            document.getElementById('eventDescription').value = eventInfo.description || '';
+
+            // 参加条件の入力欄に値を設定
+            document.getElementById('conditions').value = conditions.conditions || '';
+
+            // 景品の入力欄に値を設定
+            document.getElementById('prize1Name').value = prizes.line1.name || '';
+            document.getElementById('prize1Description').value = prizes.line1.description || '';
+            document.getElementById('prize1ValidUntil').value = prizes.line1.validUntil || '';
+            document.getElementById('prize2Name').value = prizes.line2.name || '';
+            document.getElementById('prize2Description').value = prizes.line2.description || '';
+            document.getElementById('prize2ValidUntil').value = prizes.line2.validUntil || '';
+            document.getElementById('prize3Name').value = prizes.line3.name || '';
+            document.getElementById('prize3Description').value = prizes.line3.description || '';
+            document.getElementById('prize3ValidUntil').value = prizes.line3.validUntil || '';
 
             // 各店舗の入力欄に値を設定
             ['a', 'b', 'c', 'd'].forEach(store => {
@@ -1200,11 +1310,14 @@
         function saveSettings(event) {
             event.preventDefault();
 
-            // 全体設定を保存
-            const generalSettings = {
-                conditions: document.getElementById('conditions').value
+            // イベント基本情報を保存
+            const eventInfo = {
+                eventName: document.getElementById('eventName').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                description: document.getElementById('eventDescription').value
             };
-            localStorage.setItem('generalSettings', JSON.stringify(generalSettings));
+            localStorage.setItem('eventInfo', JSON.stringify(eventInfo));
 
             // 店舗情報を保存
             const stores = {};
@@ -1220,12 +1333,67 @@
             });
             localStorage.setItem('storeInfo', JSON.stringify(stores));
 
+            // 参加条件を保存
+            const conditions = {
+                conditions: document.getElementById('conditions').value
+            };
+            localStorage.setItem('conditions', JSON.stringify(conditions));
+
+            // 景品情報を保存
+            const prizes = {
+                line1: {
+                    name: document.getElementById('prize1Name').value,
+                    description: document.getElementById('prize1Description').value,
+                    validUntil: document.getElementById('prize1ValidUntil').value
+                },
+                line2: {
+                    name: document.getElementById('prize2Name').value,
+                    description: document.getElementById('prize2Description').value,
+                    validUntil: document.getElementById('prize2ValidUntil').value
+                },
+                line3: {
+                    name: document.getElementById('prize3Name').value,
+                    description: document.getElementById('prize3Description').value,
+                    validUntil: document.getElementById('prize3ValidUntil').value
+                }
+            };
+            localStorage.setItem('prizes', JSON.stringify(prizes));
+
             loadStoreInfo();
             closeSettings();
         }
 
         // 店舗情報を読み込んで表示
         function loadStoreInfo() {
+            // イベント基本情報を表示
+            const eventInfo = JSON.parse(localStorage.getItem('eventInfo')) || defaultEventInfo;
+            document.getElementById('eventTitle').textContent = eventInfo.eventName;
+            document.getElementById('eventPeriod').textContent = `期間: ${eventInfo.startDate} 〜 ${eventInfo.endDate}`;
+
+            // 景品情報を表示
+            const prizes = JSON.parse(localStorage.getItem('prizes')) || defaultPrizes;
+
+            // 1ライン景品
+            const prize1El = document.querySelector('.prizes .prize:nth-child(1)');
+            if (prize1El) {
+                prize1El.querySelector('.prize-level').textContent = '1ライン達成';
+                prize1El.querySelector('.prize-reward').textContent = prizes.line1.name;
+            }
+
+            // 2ライン景品
+            const prize2El = document.querySelector('.prizes .prize:nth-child(2)');
+            if (prize2El) {
+                prize2El.querySelector('.prize-level').textContent = '2ライン達成';
+                prize2El.querySelector('.prize-reward').textContent = prizes.line2.name;
+            }
+
+            // 3ライン景品
+            const prize3El = document.querySelector('.prizes .prize:nth-child(3)');
+            if (prize3El) {
+                prize3El.querySelector('.prize-level').textContent = '3ライン達成';
+                prize3El.querySelector('.prize-reward').textContent = prizes.line3.name;
+            }
+
             const stores = JSON.parse(localStorage.getItem('storeInfo')) || defaultStores;
 
             ['a', 'b', 'c', 'd'].forEach(store => {
@@ -1296,13 +1464,13 @@
             });
 
             // 参加条件を表示
-            const generalSettings = JSON.parse(localStorage.getItem('generalSettings')) || defaultGeneralSettings;
+            const conditions = JSON.parse(localStorage.getItem('conditions')) || defaultConditions;
             const conditionsContent = document.querySelector('.conditions-content');
 
             if (conditionsContent) {
-                if (generalSettings.conditions && generalSettings.conditions.trim() !== '') {
+                if (conditions.conditions && conditions.conditions.trim() !== '') {
                     // 条件が設定されている場合、改行で分割してリスト表示
-                    const conditionLines = generalSettings.conditions.split('\n').filter(line => line.trim() !== '');
+                    const conditionLines = conditions.conditions.split('\n').filter(line => line.trim() !== '');
 
                     if (conditionLines.length > 0) {
                         const ul = document.createElement('ul');
