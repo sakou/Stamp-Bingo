@@ -212,6 +212,56 @@ npx prisma generate
 }
 ```
 
+#### 2.3.1 Prismaマイグレーション戦略（重要）
+
+環境によって異なるコマンドを使用する必要があります：
+
+| 環境 | コマンド | 目的 | マイグレーションファイル |
+|------|----------|------|------------------------|
+| **開発（ローカル）** | `prisma migrate dev` | スキーマ変更をマイグレーションファイルとして保存 | 自動生成 |
+| **CI/テスト** | `prisma db push` | スキーマから直接DB同期（高速） | 不要 |
+| **本番** | `prisma migrate deploy` | マイグレーション履歴を適用 | 必須（Gitにコミット済み） |
+
+**開発環境:**
+```bash
+# スキーマ変更時
+npx prisma migrate dev --name add_new_field
+
+# これにより：
+# 1. prisma/migrations/ にマイグレーションファイル生成
+# 2. データベースに適用
+# 3. Prisma Clientを再生成
+```
+
+**CI/テスト環境（GitHub Actions）:**
+```bash
+# マイグレーションファイル不要、スキーマから直接同期
+npx prisma db push --accept-data-loss
+npx prisma db seed
+
+# 理由：
+# - テスト用DBは毎回クリーンな状態から開始
+# - マイグレーション履歴管理が不要
+# - migrate deployを使うと "No migration found" エラーになる
+```
+
+**本番環境（Vercel等）:**
+```bash
+# ビルド時に実行（package.json の postinstall）
+npx prisma generate
+npx prisma migrate deploy
+
+# デプロイ前に必須：
+# - prisma/migrations/ をGitにコミット
+# - マイグレーションファイルが存在すること
+```
+
+**重要な注意点:**
+- ❌ **CI環境で `migrate deploy` は使わない** → "No migration found" エラー
+- ✅ **CI環境では `db push` を使う**
+- ✅ **本番環境では必ず `migrate deploy` を使う** → マイグレーション履歴管理のため
+- ✅ **マイグレーションファイルは必ずGitにコミット**
+
 #### 2.4 テスト環境セットアップ
 
 **jest.config.ts:**
@@ -485,7 +535,8 @@ jobs:
           DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
         run: |
           npx prisma generate
-          npx prisma migrate deploy
+          npx prisma db push --accept-data-loss
+          npx prisma db seed
 
       - name: Run linter
         run: npm run lint
@@ -620,11 +671,30 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 **症状**: `@prisma/client did not initialize yet`
 **対処**: `npx prisma generate` を実行
 
-### 6. Docker でホットリロードが効かない
+### 6. CI環境でマイグレーションエラー
+**症状**: `No migration found in prisma/migrations` または `The table does not exist`
+**原因**: CI環境で `migrate deploy` を使用している
+**対処**:
+```yaml
+# ❌ 間違い
+npx prisma migrate deploy
+
+# ✅ 正しい
+npx prisma db push --accept-data-loss
+npx prisma db seed
+```
+**理由**: CI環境ではマイグレーション履歴管理が不要。スキーマから直接同期する方が高速かつシンプル。
+
+### 7. E2Eテストでページが空
+**症状**: E2Eテストで要素が見つからない（`Expected: 25, Received: 0`）
+**原因**: データベースにシードデータが投入されていない
+**対処**: CI環境のSetup databaseステップに `npx prisma db seed` を追加
+
+### 8. Docker でホットリロードが効かない
 **症状**: コード変更が反映されない
 **対処**: volume マウント設定を確認（`- .:/app`）
 
-### 7. テストで "multiple elements" エラー
+### 9. テストで "multiple elements" エラー
 **症状**: `Found multiple elements with the text: XXX`
 **対処**: `getAllByText` または `container.textContent` を使用
 
