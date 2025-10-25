@@ -1324,6 +1324,69 @@ export async function getUserId() {
 
 **理由**: Next.js 15ではcookieの設定はmiddleware、Server Action、Route Handlerでのみ可能。Page ComponentのServer関数内では読み取りのみ。
 
+### 11. E2Eテストとコンポーネント実装の不一致
+**症状**: E2Eテストが `element(s) not found` で失敗する
+**原因**: テスト作成時に実際のUI実装を確認せず、存在しないテキストやセレクタを使用している
+**対処**: テスト作成前に必ず実際のコンポーネントコードを確認し、正確なセレクタを使用する
+
+```typescript
+// ❌ 間違い - 実装を確認せずに書いたテスト
+test('should display visit count', async ({ page }) => {
+  await expect(page.locator('text=/訪問/i')).toBeVisible()  // UIに「訪問」という文字がない！
+})
+
+// ✅ 正しい - 実装を確認してから書いたテスト
+// コンポーネントを確認: <span>3 / 6</span> と表示されている
+test('should display visit count', async ({ page }) => {
+  await expect(page.locator('text=/ 6')).toBeVisible()  // 実際の表示形式に合わせる
+})
+```
+
+**ベストプラクティス**:
+- E2Eテスト作成時は対象コンポーネントのコードを必ず読む
+- `data-testid` 属性を使ってテスト用のIDを明示的に付与すると保守性が向上
+- テスト失敗時のスクリーンショットを活用してUIを確認
+
+```typescript
+// さらに良い方法: data-testid を使用
+// コンポーネント側
+<div data-testid="store-progress">
+  {visits} / 6
+</div>
+
+// テスト側
+test('should display visit count', async ({ page }) => {
+  await expect(page.getByTestId('store-progress')).toBeVisible()
+})
+```
+
+### 12. Playwrightのデバッグ効率化
+**症状**: E2Eテスト失敗時、原因特定に時間がかかる
+**対処**: スクリーンショットとトレース機能を活用する
+
+**playwright.config.ts の推奨設定**:
+```typescript
+export default defineConfig({
+  use: {
+    screenshot: 'only-on-failure',  // 失敗時のみスクリーンショット撮影
+    trace: 'on-first-retry',        // リトライ時にトレース記録
+  },
+})
+```
+
+**デバッグ手順**:
+1. テスト失敗時、`test-results/` フォルダにスクリーンショットが保存される
+2. スクリーンショットで実際のUIを確認
+3. トレースファイル（`.zip`）がある場合、以下で詳細確認：
+   ```bash
+   npx playwright show-trace test-results/.../trace.zip
+   ```
+
+**CI環境での活用**:
+- GitHub Actionsでは自動的にスクリーンショットがartifactとしてアップロードされる
+- Actionsページから失敗時のUIを直接確認可能
+- ローカル環境を再現せずにデバッグできる
+
 ---
 
 ## チェックリスト

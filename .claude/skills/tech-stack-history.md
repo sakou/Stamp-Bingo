@@ -47,30 +47,43 @@
 
 ### Next.js + TypeScript + Prisma + PostgreSQL
 
-#### プロジェクト実績 1: 4店舗スタンプラリーシステム
+#### プロジェクト実績 1: スタンプラリーシステム
 - **開発期間**: 2025年10月
 - **規模**: 小規模（4店舗、想定数百ユーザー/日）
 - **チーム**: 個人開発
 - **デプロイ**: Vercel（想定）
-- **成果**: ✅ 成功
+- **成果**: ✅ 成功（E2E含む全テスト通過、CI/CD完備）
 - **振り返り**:
-  - Next.js 15の新機能（App Router、Server Actions）を活用し、フルスタック開発が非常にスムーズ
-  - Prisma ORMによる型安全なDB操作で開発スピードが速い
-  - Docker + Docker Composeでローカル環境が完全に再現可能
-  - Playwright E2EテストをGitHub Actionsで自動実行し、品質を担保
-  - TDDアプローチで要件定義から実装まで手戻りなく進行
+  - **良かった点**:
+    - Next.js 15の新機能（App Router、Server Actions）を活用し、フルスタック開発が非常にスムーズ
+    - Prisma ORMによる型安全なDB操作で開発スピードが速く、バグが少ない
+    - Docker + Docker Composeでローカル環境が完全に再現可能、チーム開発でも環境差異なし
+    - Playwright E2EテストをGitHub Actionsで自動実行し、デプロイ前に品質を担保
+    - TDDアプローチで要件定義→設計→実装まで手戻りなく進行
+    - middleware.tsでのcookie管理により、ユーザー識別が確実に動作
+  - **課題点**:
+    - E2Eテスト作成時、実際のUI実装を確認せずにテストを書いたため、一部テストが失敗（後に修正）
+    - Next.js 15の仕様変更への対応に時間がかかった（cookie設定、dynamic rendering等）
 - **学んだこと**:
-  - **Next.js 15の仕様変更**: cookieはmiddlewareで設定する必要がある（Page ComponentのServer関数では不可）
-  - **Prismaマイグレーション戦略**: CI環境では `migrate deploy` ではなく `db push` を使う（マイグレーションファイル不要）
-  - **dynamic rendering**: cookies()を使うページには `export const dynamic = 'force-dynamic'` が必要
-  - **Playwright設定**: GitHub Actionsで既にサーバーが起動している場合、`SKIP_WEB_SERVER` 環境変数でwebServer設定をスキップ
+  - **Next.js 15のcookie設定**: Page ComponentのServer関数ではcookie設定不可。middleware.tsで設定する必要がある
+  - **Prismaマイグレーション戦略**: 環境によってコマンドを使い分ける
+    - 開発: `prisma migrate dev`（マイグレーションファイル生成）
+    - CI: `prisma db push`（高速、マイグレーションファイル不要）
+    - 本番: `prisma migrate deploy`（マイグレーション履歴適用）
+  - **dynamic rendering**: cookies()を使うページには `export const dynamic = 'force-dynamic'` が必須
+  - **Playwright in GitHub Actions**:
+    - 外部でサーバー起動済みの場合、`SKIP_WEB_SERVER=1` でwebServer設定をスキップ
+    - `npx wait-on http://localhost:3000` でサーバー起動を待機
+  - **E2Eテストのベストプラクティス**: テスト作成時は必ず実際のコンポーネント実装を確認してセレクタを決定する
+  - **スクリーンショット活用**: Playwrightの `screenshot: 'only-on-failure'` でデバッグが劇的に効率化
 - **推奨度**: ★★★★★
 - **同じ構成を使う条件**:
-  - JavaScriptに慣れている個人開発者または小チーム
+  - JavaScriptに慣れている個人開発者または小チーム（2-5人）
   - フルスタック開発で開発スピード重視
   - Vercel無料枠での運用を想定（小〜中規模トラフィック）
   - TypeScriptで型安全性を確保したい
-  - Docker必須の環境
+  - Docker必須の環境（ローカルにNode/DBを入れたくない）
+  - E2E/CI/CDまで含めて品質を担保したい
 
 ---
 
