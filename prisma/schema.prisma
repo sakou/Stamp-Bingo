@@ -1,0 +1,144 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// イベント
+model Event {
+  id          String   @id @db.VarChar(50)
+  name        String   @db.VarChar(200)
+  description String?  @db.Text
+  startDate   DateTime @map("start_date") @db.Date
+  endDate     DateTime @map("end_date") @db.Date
+  status      String   @default("draft") @db.VarChar(20)
+  conditions  String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  stores             Store[]
+  prizes             Prize[]
+  userProgress       UserProgress[]
+  bingoAchievements  BingoAchievement[]
+
+  @@index([status])
+  @@index([startDate, endDate])
+  @@map("events")
+}
+
+// 店舗
+model Store {
+  id           Int      @id @default(autoincrement())
+  eventId      String   @map("event_id") @db.VarChar(50)
+  storeCode    String   @map("store_code") @db.VarChar(10)
+  name         String   @db.VarChar(100)
+  description  String?  @db.Text
+  instagramUrl String?  @map("instagram_url") @db.VarChar(500)
+  twitterUrl   String?  @map("twitter_url") @db.VarChar(500)
+  tiktokUrl    String?  @map("tiktok_url") @db.VarChar(500)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, storeCode])
+  @@index([eventId])
+  @@map("stores")
+}
+
+// 景品
+model Prize {
+  id          Int       @id @default(autoincrement())
+  eventId     String    @map("event_id") @db.VarChar(50)
+  lineCount   Int       @map("line_count")
+  name        String    @db.VarChar(200)
+  description String?   @db.Text
+  validUntil  DateTime? @map("valid_until") @db.Date
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, lineCount])
+  @@index([eventId])
+  @@map("prizes")
+}
+
+// ユーザー
+model User {
+  id          String   @id @db.VarChar(36)
+  instagramId String?  @unique @map("instagram_id") @db.VarChar(100)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  userProgress      UserProgress[]
+  bingoAchievements BingoAchievement[]
+
+  @@index([instagramId])
+  @@map("users")
+}
+
+// ユーザー進捗
+model UserProgress {
+  id           Int       @id @default(autoincrement())
+  userId       String    @map("user_id") @db.VarChar(36)
+  eventId      String    @map("event_id") @db.VarChar(50)
+  storeAVisits Int       @default(0) @map("store_a_visits")
+  storeBVisits Int       @default(0) @map("store_b_visits")
+  storeCVisits Int       @default(0) @map("store_c_visits")
+  storeDVisits Int       @default(0) @map("store_d_visits")
+  lastStampAt  DateTime? @map("last_stamp_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId])
+  @@index([userId])
+  @@index([eventId])
+  @@map("user_progress")
+}
+
+// ビンゴ達成記録
+model BingoAchievement {
+  id            Int       @id @default(autoincrement())
+  userId        String    @map("user_id") @db.VarChar(36)
+  eventId       String    @map("event_id") @db.VarChar(50)
+  lineCount     Int       @map("line_count")
+  isRedeemed    Boolean   @default(false) @map("is_redeemed")
+  redeemedAt    DateTime? @map("redeemed_at")
+  redeemedStore String?   @map("redeemed_store") @db.VarChar(10)
+  achievedAt    DateTime  @default(now()) @map("achieved_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId, lineCount])
+  @@index([userId])
+  @@index([eventId])
+  @@index([isRedeemed])
+  @@map("bingo_achievements")
+}
+
+// 管理者ユーザー
+model AdminUser {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique @db.VarChar(255)
+  passwordHash String    @map("password_hash") @db.VarChar(255)
+  name         String    @db.VarChar(100)
+  role         String    @default("admin") @db.VarChar(20)
+  isActive     Boolean   @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  @@index([email])
+  @@map("admin_users")
+}

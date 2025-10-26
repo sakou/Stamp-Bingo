@@ -1,0 +1,90 @@
+name: Test
+
+on:
+  push:
+    branches: [main, develop, 'claude/**']
+    paths-ignore:           # ← この3行を追加
+        - 'docs/**'
+        - '.claude/**'
+        - '**/*.md'
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: bingo_user
+          POSTGRES_PASSWORD: bingo_password
+          POSTGRES_DB: bingo_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup database
+        env:
+          DATABASE_URL: postgresql://bingo_user:bingo_password@localhost:5432/bingo_db
+        run: |
+          npx prisma generate
+          npx prisma db push --accept-data-loss
+          npx prisma db seed
+
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run unit tests
+        env:
+          DATABASE_URL: postgresql://bingo_user:bingo_password@localhost:5432/bingo_db
+        run: npm test
+
+      - name: Build project
+        env:
+          DATABASE_URL: postgresql://bingo_user:bingo_password@localhost:5432/bingo_db
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Start Next.js app
+        env:
+          DATABASE_URL: postgresql://bingo_user:bingo_password@localhost:5432/bingo_db
+        run: |
+          npm run start &
+          npx wait-on http://localhost:3000 --timeout 60000
+
+      - name: Run E2E tests
+        env:
+          DATABASE_URL: postgresql://bingo_user:bingo_password@localhost:5432/bingo_db
+          PLAYWRIGHT_BASE_URL: http://localhost:3000
+          SKIP_WEB_SERVER: '1'
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

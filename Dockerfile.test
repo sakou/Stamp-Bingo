@@ -1,0 +1,27 @@
+# E2Eテスト用Dockerfile
+FROM mcr.microsoft.com/playwright:v1.40.0-jammy
+
+# 作業ディレクトリを設定
+WORKDIR /app
+
+# Node.js 20をインストール
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
+
+# package.jsonとpackage-lock.jsonをコピー
+COPY package*.json ./
+
+# 依存関係をインストール
+RUN npm ci
+
+# Playwrightブラウザをインストール
+RUN npx playwright install --with-deps chromium
+
+# アプリケーションコードをコピー
+COPY . .
+
+# Prismaクライアントを生成
+RUN npx prisma generate
+
+# テスト実行用のコマンド
+CMD ["npm", "run", "test:e2e"]
