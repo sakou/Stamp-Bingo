@@ -20,17 +20,35 @@ async function main() {
 
   // 管理者ユーザー作成
   console.log('👤 Creating admin user...')
-  const passwordHash = await bcrypt.hash('admin123', 10)
+  // 本番環境では環境変数 ADMIN_PASSWORD を使用（必須）
+  // 開発環境ではデフォルトで 'admin123' を使用
+  const adminPassword =
+    process.env.ADMIN_PASSWORD || (process.env.NODE_ENV === 'production' ? '' : 'admin123')
+
+  if (!adminPassword) {
+    throw new Error(
+      '❌ ADMIN_PASSWORD environment variable is required in production. Please set a strong password.'
+    )
+  }
+
+  if (process.env.NODE_ENV === 'production' && adminPassword.length < 12) {
+    throw new Error('❌ Admin password must be at least 12 characters in production.')
+  }
+
+  const passwordHash = await bcrypt.hash(adminPassword, 10)
   const admin = await prisma.adminUser.create({
     data: {
-      email: 'admin@example.com',
+      email: process.env.ADMIN_EMAIL || 'admin@example.com',
       passwordHash,
-      name: '管理者太郎',
+      name: '管理者',
       role: 'admin',
       isActive: true,
     },
   })
   console.log(`✅ Admin created: ${admin.email}`)
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`ℹ️  Development password: admin123`)
+  }
 
   // テストイベント作成
   console.log('🎉 Creating test event...')
